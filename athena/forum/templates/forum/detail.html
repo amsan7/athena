@@ -2,11 +2,19 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'forum:vote' question.id %}" method="post">
-{% csrf_token %}
-{% for choice in question.choice_set.all %}
-    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
-    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+<table>
+{% for answer in question.answer_set.all %}
+        <tr>
+         <td>{{ answer }}</td>
+        </tr>
 {% endfor %}
-<input type="submit" value="Vote" />
+</table>
+
+<form action="{% url 'forum:answer' question.id %}" method="post">
+{% csrf_token %}
+	<div>
+           <input class="inputField" type='text' value='' name='answer'/>
+           <br/><br/>
+           <input type='submit' name='submit' value='Answer'/>
+        </div>
 </form>
