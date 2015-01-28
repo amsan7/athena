@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Question(models.Model):
 	question_text = models.CharField(max_length=5000)
@@ -8,7 +9,23 @@ class Question(models.Model):
 
 class Answer(models.Model):
 	question = models.ForeignKey(Question)
-	answer_text = models.CharField(max_length=500)
+	answer_text = models.CharField(max_length=5000)
 	def __str__(self):
 		return self.answer_text
+
+class UserProfile(models.Model):
+	# This line is required. Links UserProfile to a User model instance.
+    user = models.OneToOneField(User)
+
+    # The additional attributes we wish to include.
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+    #TODO: add a constant val for max_length
+    school = models.CharField(max_length=500)
+    #TODO:
+    # add fields for questions
+    # add fields for answers
+    # add fields for database
+    # Override the __unicode__() method to return out something meaningful
+    def __unicode__(self):
+        return self.user.username
 
