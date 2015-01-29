@@ -122,7 +122,7 @@ def user_login(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render_to_response('login.html', {}, context)
+        return render_to_response('forum/login.html', {}, context)
 
 @login_required
 def user_logout(request):
