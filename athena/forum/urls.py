@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^(?P<question_id>\d+)/results/$', views.results, name='results'),
     url(r'^(?P<question_id>\d+)/answer/$', views.answer, name='answer'),
     url(r'^add_question/$', views.add_question, name='add_question'),
+    url(r'^logout/$', views.user_logout, name='logout'),
 )

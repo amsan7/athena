@@ -1,6 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+<<<<<<< HEAD
+=======
+{% if user.is_authenticated %}
+<h1>Athena says... hello {{ user.username }}!</h1>
+<a href="/logout/">Logout</a><br />
+{% else %}
+<h1>Athena says... hello world!</h1>
+<a href="/register/">Sign up</a><br />
+<a href="/login/">Log in</a>
+{% endif %}
+{% if latest_question_list %}
+>>>>>>> ProfileCreation
 
 <span style="padding:15px">
   <h2> Ask a question! </h2>
