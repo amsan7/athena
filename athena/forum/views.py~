@@ -3,7 +3,6 @@ from forum.models import Question, Answer
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
-from django.utils import timezone
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
