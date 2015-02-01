@@ -5,11 +5,8 @@ from forum import views
 urlpatterns = patterns('',
 	url(r'^forum/', include('forum.urls', namespace="forum")),
     url(r'^admin/', include(admin.site.urls)),
-<<<<<<< HEAD
     url(r'^groups/', include('groups.urls', namespace="groups")),
-=======
     url(r'^register/$', views.register, name='register'),
     url(r'^login/$', views.user_login, name='login'),
     url(r'^logout/$', views.user_logout, name='logout'),
->>>>>>> ProfileCreation
 )
