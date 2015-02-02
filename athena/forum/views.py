@@ -30,6 +30,8 @@ def answer(request, question_id):
         try:
                 original_question=Question.objects.get(pk=question_id)
                 answer=Answer(question=original_question, answer_text=request.POST['answer'])
+               # if request.user.is_authenticated():
+               #     user.answers.add(answer)
         except (KeyError, Answer.DoesNotExist):
                 #redisplay question form
                 return render(request, 'forum/detail', {
@@ -44,6 +46,8 @@ def answer(request, question_id):
 def add_question(request):
         try:
                 q = Question(question_text=request.POST['question'], pub_date=timezone.now())
+               # if request.user.is_authenticated():
+               #     user.questions.add(q)
         except(KeyError, Question.DoesNotExist):
                 return render(request, 'forum/index', {
                         'error_message': "Question must not be empty!",
