@@ -153,6 +153,16 @@ def user_login(request):
         # blank dictionary object...
         return render_to_response('forum/login.html', {}, context)
 
+
+def user_profile(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        return HttpResponse('/profile/')
+    else:
+        return render_to_response('forum/profile.html', {}, context)
+
+
 @login_required
 def user_logout(request):
 	logout(request)

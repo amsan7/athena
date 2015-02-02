@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     #TODO: add a constant val for max_length
     school = models.CharField(max_length=500)
 
-    groups = models.ManyToManyField(Groups)
+    #groups = models.ManyToManyField(Groups)
     #TODO:
     # add fields for questions
     # add fields for answers
