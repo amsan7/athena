@@ -1,0 +1,12 @@
+.blue-head{
+	background-color: #4DA9D6;
+	color: white;
+	text-shadow: -1px 0 #9999aa, 0 1px #9999aa, 1px 0 #9999aa, 0 -1px #9999aa;
+	letter-spacing: 1px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.question{
+	margin:10px;
+}
