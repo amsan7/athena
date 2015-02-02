@@ -21,6 +21,8 @@ class UserProfile(models.Model):
     picture = models.ImageField(upload_to='profile_images', blank=True)
     #TODO: add a constant val for max_length
     school = models.CharField(max_length=500)
+
+    groups = models.ManyToManyField(Groups)
     #TODO:
     # add fields for questions
     # add fields for answers
