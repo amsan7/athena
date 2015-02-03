@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Create a new Study Group!!</h1>
+<form action="{% url 'groups:add_group' %}" method="POST">
+{% csrf_token %}
+	<div>
+		<input class="inputField" type='text' value='' name='group_name' placeholder='Name'/>
+		<input class="inputField" type='text' value='' name='topics' placeholder='Topics'/>
+	</div>
+		<input type="submit" value="Make Group" />
+</form>
+{% endblock %}

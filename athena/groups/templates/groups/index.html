@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>.</h1>
-<h1>nav bar is covering the questions D:</h1>
+<h4>~pastels~</h4>
 <p>here is a list of groups</p>
+{% if my_groups %}
+<ul>
+	{% for group in my_groups %}
+	<li>
+		<a>{{ group.group_name }}</a>
+	</li>
+	{% endfor %}
+</ul>
+{% else %}
+<p>no groups</p>
+{% endif %}
 <button>Create Study Group</button>
 {% endblock %}

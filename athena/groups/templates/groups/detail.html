@@ -1,6 +1,10 @@
-
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<h1>Group Name</h1>
-<h3>group topics</h3>
-<h2>Group Members</h2>
+{% if group %}
+<h1>{{ group.group_name }}</h1>
+<p>group topics:{{ group.topic }}</p>
+<h2>Group Members:</h2>
+
+{% else %}
+<p>no group :(</p>
+{% endif %}

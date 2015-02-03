@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class = "container-fluid" style = "padding:10px">
+  <div class = "row-fluid">
+
+	<!-- sidebar -->
+    <div class = "span4">
+
+      <!-- profile box -->
+      <div class = "thumbnail text-center" style = "margin-bottom:10px; background-color: white">
+          <div class = "row-fluid">
+            <div class = "span4">
+            	<h4>Look how attractive you are!</h4>
+              	<!-- ADD USER IMAGE (still does not work) -->
+              	<img src="{{ user.picture }}" width="75" height="75">
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- end sidebar -->
+
+
+  	<div class = "span8 thumbnail" style = "background-color: white">
+      <div class = "text-center thumbnail blue-head">
+        <h2>Welcome to your profile page, {{ user.username }}!</h2>
+        <h2>Questions asked thus far:</h2>
+        <ul>
+          {% for question in user.questions %}
+            <li class = "thumbnail question">
+              <a href="{% url 'forum:detail' question.id %}">{{ question.question_text }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        <h2>Questions answered thus far:</h2>
+      </div>
+    </div>
+ </div>
+</div>
+
+{% endblock %}

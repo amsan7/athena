@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from groups.models import Group
 
 class Question(models.Model):
 	question_text = models.CharField(max_length=5000)
@@ -21,9 +22,17 @@ class UserProfile(models.Model):
     picture = models.ImageField(upload_to='profile_images', blank=True)
     #TODO: add a constant val for max_length
     school = models.CharField(max_length=500)
+
+    # field for questions
+    questions = models.ManyToManyField(Question)
+
+    # field for answers
+    answers = models.ManyToManyField(Answer)
+
+    # field for groups
+    groups = models.ManyToManyField(Group)
+
     #TODO:
-    # add fields for questions
-    # add fields for answers
     # add fields for database
     # Override the __unicode__() method to return out something meaningful
     def __unicode__(self):

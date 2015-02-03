@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from forum.models import Question, Answer
+from groups.models import Group
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
@@ -11,7 +12,8 @@ from django.shortcuts import render_to_response
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')
-    context = {'latest_question_list': latest_question_list}
+    my_groups = Group.objects.all()
+    context = {'latest_question_list': latest_question_list, 'my_groups' : my_groups}
     return render(request, 'forum/index.html', context)
 
 def detail(request, question_id):
@@ -30,6 +32,8 @@ def answer(request, question_id):
         try:
                 original_question=Question.objects.get(pk=question_id)
                 answer=Answer(question=original_question, answer_text=request.POST['answer'])
+               # if request.user.is_authenticated():
+               #     user.answers.add(answer)
         except (KeyError, Answer.DoesNotExist):
                 #redisplay question form
                 return render(request, 'forum/detail', {
@@ -44,6 +48,8 @@ def answer(request, question_id):
 def add_question(request):
         try:
                 q = Question(question_text=request.POST['question'], pub_date=timezone.now())
+               # if request.user.is_authenticated():
+               #     user.questions.add(q)
         except(KeyError, Question.DoesNotExist):
                 return render(request, 'forum/index', {
                         'error_message': "Question must not be empty!",
@@ -152,6 +158,16 @@ def user_login(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render_to_response('forum/login.html', {}, context)
+
+
+def user_profile(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        return HttpResponse('/profile/')
+    else:
+        return render_to_response('forum/profile.html', {}, context)
+
 
 @login_required
 def user_logout(request):
