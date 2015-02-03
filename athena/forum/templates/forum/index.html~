@@ -73,7 +73,7 @@
           {% for question in latest_question_list %}
             <li class = "thumbnail question">
               <a href="{% url 'forum:detail' question.id %}">{{ question.question_text }}</a>
-	      -<a href="{% url 'forum:profile' question.user.id %}"><i>{{ question.user }}</i></a>
+	      -<a href="{% url 'forum:profile' 1 %}"><i>{{ question.user }}</i></a>
             </li>
           {% endfor %}
         </ul>
