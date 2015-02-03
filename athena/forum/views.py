@@ -13,7 +13,10 @@ from django.shortcuts import render_to_response
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')
     my_groups = Group.objects.all()
-    context = {'latest_question_list': latest_question_list, 'my_groups' : my_groups}
+    context = {
+    	'latest_question_list': latest_question_list, 
+	'my_groups' : my_groups
+	}
     return render(request, 'forum/index.html', context)
 
 def detail(request, question_id):
@@ -27,6 +30,7 @@ def results(request, question_id):
 	response = "You're looking at the results of question %s."
 	return HttpResponse(respone % question_id)
 
+@login_required
 def answer(request, question_id):
         q = get_object_or_404(Question, pk=question_id)
         try:
@@ -45,6 +49,7 @@ def answer(request, question_id):
                 #note: always return redirect after dealing with POST data
                 return HttpResponseRedirect(reverse('forum:detail', args=(q.id,)))
 
+@login_required
 def add_question(request):
         try:
                 q = Question(question_text=request.POST['question'], pub_date=timezone.now())
@@ -159,7 +164,7 @@ def user_login(request):
         # blank dictionary object...
         return render_to_response('forum/login.html', {}, context)
 
-
+@login_required
 def user_profile(request):
     context = RequestContext(request)
 
