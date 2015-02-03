@@ -173,7 +173,7 @@ def user_login(request):
         return render_to_response('forum/login.html', {}, context)
 
 @login_required
-def user_profile(request, user_id):
+def user_profile(request, user_id=0):
     '''
     context = RequestContext(request)
 
@@ -183,7 +183,10 @@ def user_profile(request, user_id):
         return render_to_response('forum/profile.html', {}, context)
     '''
     try:
-    	user = User.objects.get(pk=user_id)
+	if user_id==0:
+		user = User.objects.get(pk=request.user.id)
+    	else:
+		user = User.objects.get(pk=user_id)
     except User.DoesNotExist:
 	raise Http404("Profile does not exist!")
     return render(request, 'forum/profile.html', {'user': user})
