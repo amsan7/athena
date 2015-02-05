@@ -1,87 +1,26 @@
-{% extends "base.html" %}
+{% extends "forum_base.html" %}
 
-{% block content %}
-<div class = "container-fluid" style = "padding:10px">
-  <div class = "row-fluid">
-    
-    <!-- sidebar -->
-    <div class = "span4">
-
-      <!-- profile box -->
-      <div class = "thumbnail text-center" style = "margin-bottom:10px; background-color: white">
-        {% if user.is_authenticated %}
-          <div class = "row-fluid">
-            <div class = "span4">
-              <!-- ADD USER IMAGE -->
-              <img src="" width="75" height="75">
-            </div>
-            <div class = "span5">
-              <h4>Hello {{ user.username }}!</h4>
-              <a href="/logout/">Logout</a><br />
-            </div>
-          </div>
-        {% else %}
-          <div class = "row-fluid">
-            <div class = "span4">
-              <img src="http://www.clipartbest.com/cliparts/yTk/46q/yTk46qGTE.png" width="75" height="75">
-            </div>
-            <div class = "span5">
-              <h4>Who are you?</h4>
-              <a href="/register/">Sign up</a><br />
-              <a href="/login/">Log in</a>
-            </div>
-          </div>
-          
-        {% endif %}
+{% block forum %}
+  <div class = "text-center thumbnail blue-head">
+    <h2> Ask a question! </h2>
+    <form action="{% url 'forum:add_question' %}" method="POST">
+      {% csrf_token %}
+      <div>
+        <input class="inputField" type='text' value='' name='question'/>
       </div>
-
-      <!-- groups -->
-      <div class = "thumbnail" style = "margin-bottom:10px; background-color: white">
-        <h4 class = "thumbnail blue-head text-center"> Your Groups </h4>
-        <hr/>
-        {% if my_groups %}
-        <ul>
-          {% for group in my_groups %}
-          <li>
-            <a href="{% url 'groups:detail' group.id %}">{{ group.group_name }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-        {% else %}
-        <p>no groups</p>
-        {% endif %}
-        <hr/>
-        <a href="/groups/new"> New Group </a>
-        <!-- <button class="btn" href="/groups/new"><span class=" icon-plus" aria-hidden="true"></span> Create Group</button> -->
-      </div>
-    </div>
-
-    <!-- end sidebar -->
-
-    <div class = "span8 thumbnail" style = "background-color: white">
-      <div class = "text-center thumbnail blue-head">
-        <h2> Ask a question! </h2>
-        <form action="{% url 'forum:add_question' %}" method="POST">
-          {% csrf_token %}
-          <div>
-            <input class="inputField" type='text' value='' name='question'/>
-          </div>
-        </form>
-      </div>
-      {% if latest_question_list %}
-        <ul>
-          {% for question in latest_question_list %}
-            <li class = "thumbnail question">
-              <a href="{% url 'forum:detail' question.id %}">{{ question.question_text }}</a>
-	      -<a href="{% url 'forum:profile' question.user.id %}"><i>{{ question.user }}</i></a>
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-        <p>No forums are available.</p>
-      {% endif %}
-    </div>
+    </form>
   </div>
-</div>
+  {% if latest_question_list %}
+    <ul>
+      {% for question in latest_question_list %}
+        <li class = "thumbnail question">
+          <a href="{% url 'forum:detail' question.id %}">{{ question.question_text }}</a>
+    -<a href="{% url 'forum:profile' question.user.id %}"><i>{{ question.user }}</i></a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No forums are available.</p>
+  {% endif %}
 
 {% endblock %}

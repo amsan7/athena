@@ -1,20 +1,25 @@
-<h1>{{ question.question_text }}</h1>
+{% extends "forum_base.html" %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% block forum %}
+	<a href="/forum/"><span class=" icon-arrow-left" aria-hidden="true"></span></a>
+	<h3 class = "text-center">{{ question.question_text }}</h3>
+	<hr/>
+	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<table>
-{% for answer in question.answer_set.all %}
-        <tr>
-         <td>{{ answer }}</td>
-        </tr>
-{% endfor %}
-</table>
+	<ul>
+	{% for answer in question.answer_set.all %}
+	    
+	    <li class = "question" >{{ answer }}</li>
+	{% endfor %}
+	</ul>
+	<hr/>
+	<form action="{% url 'forum:answer' question.id %}" method="post">
+	{% csrf_token %}
+		<div>
+	        <input class="inputField" type='text' value='' name='answer'/>
+	        <br/>
+	        <input class = "btn" type='submit' name='submit' value='Answer'/>
+	    </div>
+	</form>
 
-<form action="{% url 'forum:answer' question.id %}" method="post">
-{% csrf_token %}
-	<div>
-           <input class="inputField" type='text' value='' name='answer'/>
-           <br/><br/>
-           <input type='submit' name='submit' value='Answer'/>
-        </div>
-</form>
+{% endblock %}
