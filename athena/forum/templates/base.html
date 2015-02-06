@@ -59,8 +59,16 @@
     {% endblock %}
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src = "{% static 'forum/bootstrap/js/bootstrap.js' %}" >
-
+    <script src = "{% static 'forum/bootstrap/js/bootstrap.js' %}" ></script>
+    <script type="text/javascript">
+      $('#sidebar').affix({
+        offset: {
+          top: 100,
+          bottom: function () {
+            return (this.bottom = $('.footer').outerHeight(true))
+          }
+        }
+      })
     </script>
   </body>
 </html>
