@@ -13,10 +13,29 @@
   {% if latest_question_list %}
     <ul>
       {% for question in latest_question_list %}
-        <li class = "thumbnail question">
-          <a href="{% url 'forum:detail' question.id %}">{{ question.question_text }}</a>
-    -<a href="{% url 'forum:profile' question.user.id %}"><i>{{ question.user }}</i></a>
+        <h4><a class = "hidden-link" href="{% url 'forum:profile' question.user.id %}"><i>{{ question.user }}</i></a></h4>
+        <li class = "thumbnail question" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
+          {{ question.question_text }}
         </li>
+        <div class="collapse question" id="{{question.id}}">
+            <div class="well">
+              {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+              <ul>
+              {% for answer in question.answer_set.all %}
+                  <li class = "question" >{{ answer }}</li>
+              {% endfor %}
+              </ul>
+              <hr/>
+              <form action="{% url 'forum:answer' question.id %}" method="post">
+              {% csrf_token %}
+                <div>
+                      <input class="inputField" type='text' value='' name='answer'/>
+                      <br/>
+                      <input class = "btn" type='submit' name='submit' value='Answer'/>
+                </div>
+              </form>
+            </div>
+          </div>
       {% endfor %}
     </ul>
   {% else %}
