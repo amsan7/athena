@@ -33,7 +33,7 @@
               <div class = "span5">
                 <h4>Who are you?</h4>
                 <a href="/register/">Sign up</a><br />
-                <a href="/login/">Log in</a>
+                <a href="#myModalLogin" data-toggle="modal">Log in</a>
               </div>
             </div>
             
@@ -75,6 +75,29 @@
       {% endblock %}
     </div>
   </div>
+</div>
+
+<!-- Modal HTML -->
+<div id="myModalLogin" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Login</h4>
+            </div>
+            <div class="modal-body">
+                <form id="login_form" method="post" action="/login/">
+                    {% csrf_token %}
+                    Username: <input type="text" name="username" value="" size="50" />
+                    <br />
+                    Password: <input type="password" name="password" value="" size="50" />
+                    <br /><br/>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-primary" value = "submit"/>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
