@@ -11,31 +11,40 @@
     </form>
   </div>
   {% if latest_question_list %}
-    <ul>
+    <ul class = "no-bullet">
       {% for question in latest_question_list %}
-        <h4><a class = "hidden-link" href="{% url 'forum:profile' question.user.id %}"><i>{{ question.user }}</i></a></h4>
-        <li class = "thumbnail question" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
-          {{ question.question_text }}
-        </li>
-        <div class="collapse question" id="{{question.id}}">
-            <div class="well">
+        <div class = "thumbnail question">
+          <div class = "row-fluid">
+            <div class = "span1">
+              <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
+            </div>
+            <div class = "span10">
+              <a class = "hidden-link" href="{% url 'forum:profile' question.user.id %}"><i><h5>{{ question.user }}</h5></i></a>
+              <li style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
+                {{ question.question_text }}
+              </li>
+            </div>
+          </div>
+          <div class="collapse" id="{{question.id}}">
+            <div class="well" style = "margin:10px">
               {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-              <ul>
+              <ul class = "no-bullet">
               {% for answer in question.answer_set.all %}
-                  <li class = "question" >{{ answer }}</li>
+                <li class = "question" >{{ answer }}</li>
               {% endfor %}
               </ul>
               <hr/>
               <form action="{% url 'forum:answer' question.id %}" method="post">
               {% csrf_token %}
                 <div>
-                      <input class="inputField" type='text' value='' name='answer'/>
-                      <br/>
-                      <input class = "btn" type='submit' name='submit' value='Answer'/>
+                  <input class="inputField" type='text' value='' name='answer'/>
+                  <br/>
+                  <input class = "btn" type='submit' name='submit' value='Answer'/>
                 </div>
               </form>
             </div>
           </div>
+        </div>
       {% endfor %}
     </ul>
   {% else %}
