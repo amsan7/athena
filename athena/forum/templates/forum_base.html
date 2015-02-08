@@ -20,17 +20,17 @@
               <div class = "span7">
                 <a class = "hidden-link" href = "{% url 'forum:profile' %}">
                   <h4>Hello {{ user.username }}!</h4>
-                  <p> {{ user.school }} </p>
                 </a>
+                <p> {{ user.school }} School </br> Teacher or Student </p>
                 <div class = "text-right" ><a href="/logout/">Logout</a></div>
               </div>
             </div>
           {% else %}
             <div class = "row-fluid">
-              <div class = "span4">
-                <img src = "{{STATIC_URL}}forum/flag.png" width="75" height="75">
-              </div>
               <div class = "span5">
+                <img class = "square-crop" src = "{{STATIC_URL}}forum/flag.png">
+              </div>
+              <div class = "span7 text-center">
                 <h4>Who are you?</h4>
                 <a href="/register/">Sign up</a><br />
                 <a href="#myModalLogin" data-toggle="modal">Log in</a>
@@ -41,8 +41,8 @@
         </div>
 
         <!-- groups -->
-        <div class = "thumbnail" style = "margin-bottom:10px; background-color: white">
-          <a class = "hidden-link" href = "/groups/"><h4 class = "thumbnail blue-head text-center"> Your Groups </h4></a>
+        <div class = "thumbnail" style = "margin-bottom:10px; background-color: white;">
+          <a class = "hidden-link" href = "/groups/"><h4 class = "thumbnail blue-head link text-center"> Your Groups </h4></a>
           <hr/>
             {% if user.is_authenticated %}
            <!-- stuff about populating groups -->
@@ -70,7 +70,7 @@
 
     <!-- end sidebar -->
 
-    <div class = "span8 thumbnail" style = "background-color: white">
+    <div class = "span8 thumbnail" style = "background-color: white; padding: 0px;">
       {% block forum %}
       {% endblock %}
     </div>

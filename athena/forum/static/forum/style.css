@@ -5,6 +5,18 @@
 	letter-spacing: 1px;
 	padding-top: 15px;
 	padding-bottom: 15px;
+	border: 1px solid #4DA9D6;
+
+}
+
+.blue-head.link:hover{
+	background-color: #3E87AB;
+	border: 1px solid #3E87AB;
+	color: ;
+}
+
+hr{
+	margin: 10px 0;
 }
 
 .gray-head{
@@ -13,6 +25,14 @@
 	letter-spacing: 1px;
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+
+.gray-glyph{
+	opacity: .6;
+}
+
+.gray-glyph:hover{
+	opacity: .8;
 }
 
 .question{
@@ -25,6 +45,10 @@
 
 .hidden-link:hover{
 	text-decoration: none;
+}
+
+.linked:hover{
+	color: #4DA9D6;
 }
 
 .square-crop {

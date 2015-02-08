@@ -2,51 +2,47 @@
 
 {% block forum %}
   <div class = "text-center thumbnail blue-head">
-    <h2> Ask a question! </h2>
-    <form action="{% url 'forum:add_question' %}" method="POST">
+    <form style = "margin-bottom: 0px; margin-top: 5px" action="{% url 'forum:add_question' %}" method="POST">
       {% csrf_token %}
-      <div>
-        <input class="inputField" type='text' value='' name='question'/>
-      </div>
+      <input class="inputField" type='text' placeholder="Ask a question!" name='question'/>
     </form>
   </div>
   {% if latest_question_list %}
-    <ul class = "no-bullet">
-      {% for question in latest_question_list %}
-        <div class = "thumbnail question">
-          <div class = "row-fluid">
-            <div class = "span1">
-              <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
-            </div>
-            <div class = "span10">
-              <a class = "hidden-link" href="{% url 'forum:profile' question.user.id %}"><i><h5>{{ question.user }}</h5></i></a>
-              <li style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
-                {{ question.question_text }}
-              </li>
-            </div>
+    {% for question in latest_question_list %}
+      <div class = "question">
+        <div class = "row-fluid">
+          <div class = "span1">
+            <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
           </div>
-          <div class="collapse" id="{{question.id}}">
-            <div class="well" style = "margin:10px">
-              {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-              <ul class = "no-bullet">
-              {% for answer in question.answer_set.all %}
-                <li class = "question" >{{ answer }}</li>
-              {% endfor %}
-              </ul>
-              <hr/>
-              <form action="{% url 'forum:answer' question.id %}" method="post">
-              {% csrf_token %}
-                <div>
-                  <input class="inputField" type='text' value='' name='answer'/>
-                  <br/>
-                  <input class = "btn" type='submit' name='submit' value='Answer'/>
-                </div>
-              </form>
-            </div>
+          <div class = "span10">
+            <a class = "hidden-link" href="{% url 'forum:profile' question.user.id %}"><i><h5>{{ question.user }}</h5></i></a>
+            <p class = "linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
+              {{ question.question_text }}
+            </p>
           </div>
         </div>
-      {% endfor %}
-    </ul>
+        <div class="collapse" id="{{question.id}}">
+          <div class="well" style = "margin:10px">
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+              {% for answer in question.answer_set.all %}
+                <div class = "row-fluid">
+                  <div class = "span1 text-center">
+                    <span class="icon-arrow-up gray-glyph" aria-hidden="true"></span><br/>
+                    <span class="icon-arrow-down gray-glyph" aria-hidden="true"></span>
+                  </div>
+                  <p class = "question span8" >{{ answer }}</p>
+                </div>
+                <hr/>
+              {% endfor %}
+            <form style = "margin-bottom: 0px" action="{% url 'forum:answer' question.id %}" method="post">
+            {% csrf_token %}
+              <input class="inputField" placeholder= "Answer" type='text' value='' name='answer'/>
+            </form>
+          </div>
+        </div>
+      </div>
+      <hr/>
+    {% endfor %}
   {% else %}
     <p>No forums are available.</p>
   {% endif %}
