@@ -51,7 +51,7 @@ def answer(request, question_id):
         else:
                 answer.save()
                 #note: always return redirect after dealing with POST data
-                return HttpResponseRedirect(reverse('forum:detail', args=(q.id,)))
+                return HttpResponseRedirect(reverse('forum:index'))
 
 @login_required
 def add_question(request):
