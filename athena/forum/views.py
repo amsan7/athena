@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from forum.models import Question, Answer
+from forum.models import Question, Answer, User
 from groups.models import Group
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -13,7 +13,10 @@ from django.shortcuts import render_to_response
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')
     my_groups = Group.objects.all()
-    context = {'latest_question_list': latest_question_list, 'my_groups' : my_groups}
+    context = {
+    	'latest_question_list': latest_question_list, 
+	'my_groups' : my_groups
+	}
     return render(request, 'forum/index.html', context)
 
 def detail(request, question_id):
@@ -27,11 +30,16 @@ def results(request, question_id):
 	response = "You're looking at the results of question %s."
 	return HttpResponse(respone % question_id)
 
+@login_required
 def answer(request, question_id):
         q = get_object_or_404(Question, pk=question_id)
         try:
                 original_question=Question.objects.get(pk=question_id)
-                answer=Answer(question=original_question, answer_text=request.POST['answer'])
+                answer=Answer(
+			question=original_question, 
+			answer_text=request.POST['answer'],
+			user=request.user
+			)
                # if request.user.is_authenticated():
                #     user.answers.add(answer)
         except (KeyError, Answer.DoesNotExist):
@@ -45,9 +53,14 @@ def answer(request, question_id):
                 #note: always return redirect after dealing with POST data
                 return HttpResponseRedirect(reverse('forum:detail', args=(q.id,)))
 
+@login_required
 def add_question(request):
         try:
-                q = Question(question_text=request.POST['question'], pub_date=timezone.now())
+                q = Question(
+			question_text=request.POST['question'], 
+			pub_date=timezone.now(),
+			user=request.user
+			)
                # if request.user.is_authenticated():
                #     user.questions.add(q)
         except(KeyError, Question.DoesNotExist):
@@ -159,14 +172,25 @@ def user_login(request):
         # blank dictionary object...
         return render_to_response('forum/login.html', {}, context)
 
-
-def user_profile(request):
+@login_required
+def user_profile(request, user_id=0):
+    '''
     context = RequestContext(request)
 
     if request.method == 'POST':
         return HttpResponse('/profile/')
     else:
         return render_to_response('forum/profile.html', {}, context)
+    '''
+    try:
+	if user_id==0:
+		user = User.objects.get(pk=request.user.id)
+    	else:
+		user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+	raise Http404("Profile does not exist!")
+    return render(request, 'forum/profile.html', {'user': user})
+    
 
 
 @login_required

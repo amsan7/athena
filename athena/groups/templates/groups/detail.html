@@ -1,3 +1,6 @@
+{% extends "forum_base.html" %}
+
+{% block forum %}
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 {% if group %}
@@ -8,3 +11,4 @@
 {% else %}
 <p>no group :(</p>
 {% endif %}
+{% endblock %}

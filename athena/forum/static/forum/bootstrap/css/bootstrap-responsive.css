@@ -948,11 +948,23 @@
     position: static;
   }
 }
+@media (min-width: 770px){
 
-@media (max-width: 979px) {
+  .affix{
+    width: 31.491712707182323%;
+    *width: 31.43852121782062%;
+  }
+
+}
+@media (max-width: 770px) {
   body {
     padding-top: 0;
   }
+  .affix {
+     position: static;
+     width: auto;
+     top: 0;
+    }
   .navbar-fixed-top,
   .navbar-fixed-bottom {
     position: static;

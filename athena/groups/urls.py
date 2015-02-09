@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     url(r'^(?P<group_id>\d+)/$', views.detail, name='detail'),
     url(r'^new/$', views.new, name='new'),
     url(r'^add_group/$', views.add_group, name='add_group'),
+    # url(r'^edit/$', views.edit, name='edit'),
+    # url(r'^delete/$', views.delete, name='delete'),
 )
