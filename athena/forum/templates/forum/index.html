@@ -15,7 +15,7 @@
             <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
           </div>
           <div class = "span10">
-            <a class = "hidden-link" href="{% url 'forum:profile' question.user.id %}"><i><h5>{{ question.user }}</h5></i></a>
+            <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><h5>{{ question.user }}</h5></i></a>
             <p class = "linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
               {{ question.question_text }}
             </p>

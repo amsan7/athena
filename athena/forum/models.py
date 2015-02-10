@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
 from groups.models import Group
+from django.contrib.auth.models import User
 
 class Question(models.Model):
 	question_text = models.CharField(max_length=5000)
@@ -16,28 +16,3 @@ class Answer(models.Model):
 	upvotes = models.IntegerField(default=0)
 	def __str__(self):
 		return self.answer_text
-
-class UserProfile(models.Model):
-	# This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
-
-    # The additional attributes we wish to include.
-    picture = models.ImageField(upload_to='profile_images', blank=True)
-    #TODO: add a constant val for max_length
-    school = models.CharField(max_length=500)
-
-    # field for questions
-    questions = models.ManyToManyField(Question)
-
-    # field for answers
-    answers = models.ManyToManyField(Answer)
-
-    # field for groups
-    groups = models.ManyToManyField(Group)
-
-    #TODO:
-    # add fields for database
-    # Override the __unicode__() method to return out something meaningful
-    def __unicode__(self):
-        return self.user.username
-

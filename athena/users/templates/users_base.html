@@ -22,7 +22,7 @@
                   <h4>{{ user.username }}</h4>
                 </a>
                 <p> {{ user.school }} School </br> Teacher or Student </p>
-                <div class = "text-right" ><a href="{% url 'users:logout' %}">Logout</a></div>
+                <div class = "text-right" ><a href="/logout/">Logout</a></div>
               </div>
             </div>
           {% else %}
@@ -32,7 +32,7 @@
               </div>
               <div class = "span7 text-center">
                 <h4>Who are you?</h4>
-                <a href="{% url 'users:register' %}">Sign up</a><br />
+                <a href="/register/">Sign up</a><br />
                 <a href="#myModalLogin" data-toggle="modal">Log in</a>
               </div>
             </div>

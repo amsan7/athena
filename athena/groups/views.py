@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from groups.models import Group, GroupUserJoin
-from forum.models import UserProfile
+from users.models import UserProfile
 from django.utils import timezone
 
 
