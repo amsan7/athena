@@ -23,7 +23,7 @@
   <ul>
     {% for answer in user.answer_set.all %}
       <li class = "thumbnail question">
-        <a href="{% url 'forum:detail' answer.question.id %}">{{ answer.answer_text }}</a>
+        <a href="{% url 'forum:detail' answer.question.id %}">{{ answer.question.question_text }}</a>
       </li>
     {% endfor %}
   </ul>
