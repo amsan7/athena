@@ -5,6 +5,34 @@
 	letter-spacing: 1px;
 	padding-top: 15px;
 	padding-bottom: 15px;
+	border: 1px solid #4DA9D6;
+
+}
+
+.blue-head.link:hover{
+	background-color: #4598C1;
+	border: 1px solid #4598C1;
+	color: ;
+}
+
+hr{
+	margin: 10px 0;
+}
+
+.gray-head{
+	background-color: #e5e5e5;
+	color: #888888;
+	letter-spacing: 1px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.gray-glyph{
+	opacity: .6;
+}
+
+.gray-glyph:hover{
+	opacity: .8;
 }
 
 .gray-head{
@@ -25,6 +53,10 @@
 
 .hidden-link:hover{
 	text-decoration: none;
+}
+
+.linked:hover{
+	color: #4DA9D6;
 }
 
 .square-crop {

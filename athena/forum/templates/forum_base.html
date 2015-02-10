@@ -13,24 +13,24 @@
             <div class = "row-fluid">
               <div class = "span5">
                 <!-- ADD USER IMAGE -->
-                <div class = "square-crop">
+                <div class = "square-crop"><a class = "hidden-link" href = "{% url 'forum:profile' %}">
                   <img src="https://fbcdn-sphotos-d-a.akamaihd.net/hphotos-ak-xfp1/t31.0-8/s960x960/10256612_10203806842594141_8536559186258868509_o.jpg">
-                </div>
+                </a></div>
               </div>
-              <div class = "span7">
+              <div class = "span7" style = "padding-right: 5px;">
                 <a class = "hidden-link" href = "{% url 'forum:profile' %}">
-                  <h4>Hello {{ user.username }}!</h4>
-                  <p> {{ user.school }} </p>
+                  <h4>{{ user.username }}</h4>
                 </a>
+                <p> {{ user.school }} School </br> Teacher or Student </p>
                 <div class = "text-right" ><a href="/logout/">Logout</a></div>
               </div>
             </div>
           {% else %}
             <div class = "row-fluid">
-              <div class = "span4">
-                <img src = "{{STATIC_URL}}forum/flag.png" width="75" height="75">
-              </div>
               <div class = "span5">
+                <img class = "square-crop" src = "{{STATIC_URL}}forum/flag.png">
+              </div>
+              <div class = "span7 text-center">
                 <h4>Who are you?</h4>
                 <a href="/register/">Sign up</a><br />
                 <a href="#myModalLogin" data-toggle="modal">Log in</a>
@@ -41,9 +41,9 @@
         </div>
 
         <!-- groups -->
-        <div class = "thumbnail" style = "margin-bottom:10px; background-color: white">
-          <a class = "hidden-link" href = "/groups/"><h4 class = "thumbnail blue-head text-center"> Your Groups </h4></a>
-          <hr/>
+        <div class = "thumbnail" style = "margin-bottom:10px; background-color: white; padding: 0px;">
+          <a class = "hidden-link" href = "/groups/"><h4 style = "margin-top:0;" class = "thumbnail blue-head link text-center"> Your Groups </h4></a>
+          <div style = "padding: 10px;">
             {% if user.is_authenticated %}
            <!-- stuff about populating groups -->
               {% if my_groups %}
@@ -57,20 +57,20 @@
               {% else %}
               <p>no groups</p>
               {% endif %}
-              <hr/>
+
               <a class="btn" href = "/groups/new"><span class=" icon-plus" aria-hidden="true"></span> Create Group
               </a>
             {% else %}
               <p class = "text-center"> Sign in to see your groups </p>
-              <hr/>
             {% endif %}
+          </div>
         </div>
       </div>
     </div>
 
     <!-- end sidebar -->
 
-    <div class = "span8 thumbnail" style = "background-color: white">
+    <div class = "span8 thumbnail" style = "background-color: white; padding: 0px;">
       {% block forum %}
       {% endblock %}
     </div>

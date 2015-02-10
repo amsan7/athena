@@ -12,7 +12,6 @@ def index(request):
     context = {'my_groups' : my_groups}
     return render(request, 'groups/index.html', context)
 
-        
 @login_required
 # give only people in the group permission to see it
 def detail(request, group_id):
