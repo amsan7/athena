@@ -39,10 +39,20 @@ def register(request):
             profile = profile_form.save(commit=False)
             profile.user = user
 
-            # Did the user provide a profile picture?
-            # If so, we need to get it from the input form and put it in the UserProfile model.
+            if 'first name' in request.FILES:
+            	profile.fistName = request.FILES['first name']
+
+            if 'last name' in request.FILES:
+            	profile.lastName = request.FILES['last name']
+
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
+
+            if 'school' in request.FILES:
+            	profile.school = request.FILES['school']
+
+            if 'are you a teacher?' in request.FILES:
+            	profile.isTeacher = request.FILES['are you a teacher?']
 
             # Now we save the UserProfile model instance.
             profile.save()

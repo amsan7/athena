@@ -10,7 +10,13 @@ class UserProfile(models.Model):
     # The additional attributes we wish to include.
     picture = models.ImageField(upload_to='profile_images', blank=True)
     #TODO: add a constant val for max_length
-    school = models.CharField(max_length=500)
+    school = models.CharField(max_length=500, default='school')
+
+    isTeacher = models.BooleanField(default=False)
+
+    firstName = models.CharField(max_length=500, default='first name')
+
+    lastName = models.CharField(max_length=500, default='last name')
 
     # field for questions
     questions = models.ManyToManyField(Question)
@@ -20,6 +26,7 @@ class UserProfile(models.Model):
 
     # field for groups
     groups = models.ManyToManyField(Group)
+
 
     #TODO:
     # add fields for database
