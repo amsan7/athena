@@ -30,7 +30,10 @@
                     <span class="icon-arrow-up gray-glyph" aria-hidden="true"></span><br/>
                     <span class="icon-arrow-down gray-glyph" aria-hidden="true"></span>
                   </div>
-                  <p class = "question span8" >{{ answer }}</p>
+                  <p class = "question span8" >{{ answer }} 
+	<a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i><h5>{{ answer.user }}</h5></i></a>
+<i> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %} </i>
+	</i></p>
                 </div>
                 <hr/>
               {% endfor %}
