@@ -2,7 +2,7 @@
 
 {% block forum%}
 <div class = "text-center thumbnail blue-head">
-  <h3>Welcome to your profile page, {{ user.username }}!</h3>
+  <h3>Welcome to your profile page, {{ profile.firstName }} from {{ profile.school }}!</h3>
 </div>
 <div style = "margin: 20px;">
   <div class = "text-center thumbnail gray-head">
@@ -10,7 +10,7 @@
   </div>
   <hr/>
   <ul>
-    {% for question in user.questions %}
+    {% for question in user.question_set.all %}
       <li class = "thumbnail question">
         <a href="{% url 'forum:detail' question.id %}">{{ question.question_text }}</a>
       </li>
@@ -20,5 +20,12 @@
     <h4>Questions answered thus far:</h4>
   </div>
   <hr/>
+  <ul>
+    {% for answer in user.answer_set.all %}
+      <li class = "thumbnail question">
+        <a href="{% url 'forum:detail' answer.question.id %}">{{ answer.question.question_text }}</a>
+      </li>
+    {% endfor %}
+  </ul>
 </div>
 {% endblock%}

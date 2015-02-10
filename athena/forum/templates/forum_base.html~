@@ -63,7 +63,6 @@
               {% else %}
               <p>no groups</p>
               {% endif %}
-
               <a class="btn" href = "/groups/new"><span class=" icon-plus" aria-hidden="true"></span> Create Group
               </a>
             {% else %}

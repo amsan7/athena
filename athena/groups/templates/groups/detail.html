@@ -4,10 +4,13 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 {% if group %}
-<h1>{{ group.group_name }}</h1>
-<p>group topics:{{ group.topic }}</p>
-<h2>Group Members:</h2>
-
+<h1 align="center">{{ group.group_name }}</h1>
+<p align="center">{{ group.topic }}</p>
+<h4> Group Members: </h4>
+<form style = "margin-bottom: 0px; margin-top: 5px" action="{% url 'forum:add_question' %}" method="POST">
+      {% csrf_token %}
+      <input class="inputField" type='text' placeholder="Ask a question!" name='question'/>
+    </form>
 {% else %}
 <p>no group :(</p>
 {% endif %}

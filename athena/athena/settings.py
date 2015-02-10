@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_PROFILE_MODULE = "account.UserProfile"
 
 # Application definition
 
@@ -37,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'forum',
-    'groups'
+    'groups',
+    'users'
 )
 
 MIDDLEWARE_CLASSES = (
