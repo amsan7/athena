@@ -26,14 +26,18 @@
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
               {% for answer in question.answer_set.all %}
                 <div class = "row-fluid">
+
                   <div class = "span1 text-center">
                     <span class="icon-arrow-up gray-glyph" aria-hidden="true"></span><br/>
                     <span class="icon-arrow-down gray-glyph" aria-hidden="true"></span>
                   </div>
-                  <p class = "question span8" >{{ answer }} 
-  <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i><h5>{{ answer.user }}</h5></i></a>
-<i> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %} </i>
-  </i></p>
+                  <div class = "span8" >
+                    <p>
+                      <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
+                      </i></br>
+                      {{ answer }} 
+                    </p>
+                  </div>
                 </div>
                 <hr/>
               {% endfor %}

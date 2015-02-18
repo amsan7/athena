@@ -14,21 +14,73 @@
     <link href="{% static 'forum/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'forum/bootstrap/css/bootstrap-responsive.css' %}" rel="stylesheet">
     <link href="{% static 'forum/style.css' %}" rel="stylesheet">
+    <link href="{% static 'users/users-style.css' %}" rel = "stylesheet" >
 
   </head>
 
-  <body style = "background-color: #CEE8F5; padding: 7.5px;">
+  <body>
 
-    <div align = "center">
-        <div class = "text-left thumbnail" style = "border: 1px solid #cccccc; width:364px; margin:5px; background-color: white">
-            <h2 class = "thumbnail blue-head text-center">{% block header %}{% endblock %}</h2>
+    <div id = "changing_background">
+    </div>
 
-            {% block content %}
-            {% endblock %}
+    <div id = "overlay" class="site-wrapper">
+
+        <div class="site-wrapper-inner">
+
+            <div class="container">
+
+                <div class="row-fluid" align = "center">
+                    <div class = "span6">
+                        <br/><br/>
+                        <br/><br/>
+                        <br/><br/>
+                        <h1 class="cover-heading">Welcome to Athena</h1><br/>
+                        <p class="lead">Athena is a website made specifically to satisfy your ever growing academic needs.  We use multiplatformed, cross-concurrent processing to connect you to your peers faster than ever Blah blah blah buzzword bullshit. <br/> Join now.</p>
+                    </div>
+                    <div class = "span6 opaque">
+                        <div class = "text-left thumbnail opaque" style = "border: 1px solid #cccccc; width:364px; margin: 10px; padding: 10px; background-color: white; color: black; text-shadow: none;">
+                            {% block content %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                
+                </div>
+
+            </div>
+
         </div>
+
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src = "{% static 'forum/bootstrap/js/bootstrap.js' %}" ></script>
+    <script>
+        $(document).ready(function(){
+        var header = $('#changing_background');
+
+        var backgrounds = new Array(
+          'url({{STATIC_URL}}users/pic2.jpg)'
+          , 'url({{STATIC_URL}}users/pic5.jpg)'
+          , 'url({{STATIC_URL}}users/pic6.jpg)'
+          , 'url({{STATIC_URL}}users/pic3.jpg)'
+          , 'url({{STATIC_URL}}users/pic7.jpg)'
+        );
+
+        var current = 0;
+        var count = 0;
+        var waitTime = 6000;
+
+        function changeback(){
+            header.css('background-image', backgrounds[current]).fadeOut(500, function(){
+                current++;
+                current = current % backgrounds.length;
+                header.css('background-image', backgrounds[current]).fadeIn(500);
+            });
+        }
+
+        header.css('background-image', backgrounds[0]);
+        setInterval(function(){ changeback() }, waitTime);
+        });
+    </script>
   </body>
 </html>

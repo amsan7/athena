@@ -76,3 +76,8 @@ hr{
 .no-bullet{
 	list-style-type: none;
 }
+
+.answer-small{
+	font-size: 13px;
+	color: #777777;
+}
