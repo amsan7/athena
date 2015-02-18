@@ -8,7 +8,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
 
     # The additional attributes we wish to include.
-    picture = models.ImageField(upload_to='profile_images', blank=True)
+    picture = models.CharField(max_length=5000, default='Paste image URL here')
     #TODO: add a constant val for max_length
     school = models.CharField(max_length=500, default='school')
 
