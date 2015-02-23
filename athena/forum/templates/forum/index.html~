@@ -18,7 +18,7 @@
             <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><h5>{{ question.user }}</h5></i></a>
             <p class = "linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
               {{ question.question_text }}
-            </p>
+            </p> <br/>
 	<b> {{ question.subject }} </b>
           </div>
         </div>
