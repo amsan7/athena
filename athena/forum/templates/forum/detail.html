@@ -1,25 +1,37 @@
 {% extends "forum_base.html" %}
 
 {% block forum %}
-	<a href="/forum/"><span class=" icon-arrow-left" aria-hidden="true"></span></a>
 	<h3 class = "text-center">{{ question.question_text }}</h3>
 	<hr/>
-	{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-	<ul>
-	{% for answer in question.answer_set.all %}
-	    
-	    <li class = "question" >{{ answer }}</li>
-	{% endfor %}
-	</ul>
-	<hr/>
-	<form action="{% url 'forum:answer' question.id %}" method="post">
-	{% csrf_token %}
-		<div>
-	        <input class="inputField" type='text' value='' name='answer'/>
-	        <br/>
-	        <input class = "btn" type='submit' name='submit' value='Answer'/>
-	    </div>
-	</form>
+	<div class="well" style = "margin:10px">
+	  <ul id = "talk-{{question.id}}" class = "no-bullet">
+	  {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+	    {% for answer in question.answer_set.all %}
+	    <li>
+	      <div class = "row-fluid">
+	      	{% if user.is_authenticated %}
+	        <div class = "span1 text-center">
+	          <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
+	        </div>
+	        {% endif %}
+	        <div class = "span8" >
+	          <p>
+	            <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
+	            </i></br>
+	            {{ answer }} 
+	          </p>
+	        </div>
+	      </div>
+	      <hr/>
+	    </li>
+	    {% endfor %}
+	  </ul>
+	  <div id = "results-{{question.id}}"></div>
+	  <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
+	  {% csrf_token %}
+	    <input id = "answer-{{question.id}}" class="inputField" placeholder= "Answer" type='text' value='' name='answer'/>
+	  </form>
+	</div>
 
 {% endblock %}

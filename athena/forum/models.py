@@ -32,5 +32,14 @@ class Answer(models.Model):
 	answer_text = models.CharField(max_length=5000)
 	user = models.ForeignKey(User)
 	upvotes = models.IntegerField(default=0)
+
+	def upvote(self):
+		self.upvotes = self.upvotes + 1
+		self.save()
+
+	def downvote(self):
+		self.upvotes = self.upvotes - 1
+		self.save()
+
 	def __str__(self):
 		return self.answer_text

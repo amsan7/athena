@@ -60,6 +60,7 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src = "{% static 'forum/bootstrap/js/bootstrap.js' %}" ></script>
+    <script src = "{% static 'forum/my-java.js' %}" ></script>
     <script type="text/javascript">
       $('#sidebar').affix({
         offset: {
@@ -69,6 +70,30 @@
           }
         }
       })
+      
+      $('.answer-form').on('submit', function(event){
+          event.preventDefault();
+          console.log("form submitted!");  // sanity check
+          var question_id = $(this).attr('value');
+          answer(question_id);
+      });
+
+      $('.up-vote').on('click', function(event){
+          event.preventDefault();
+          console.log("up-vote clicked");  // sanity check
+          var answer_id = $(this).attr('value');
+          console.log(answer_id);
+          upvote(answer_id);
+      });
+
+      $('.down-vote').on('click', function(event){
+          event.preventDefault();
+          console.log("down-vote clicked");  // sanity check
+          var answer_id = $(this).attr('value');
+          console.log(answer_id);
+          downvote(answer_id);
+      });
+
     </script>
   </body>
 </html>
