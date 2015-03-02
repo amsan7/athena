@@ -4,7 +4,8 @@
   <div class = "text-center thumbnail blue-head">
     <form style = "margin-bottom: 0px; margin-top: 5px" action="{% url 'forum:add_question' %}" method="POST">
       {% csrf_token %}
-      <input class="inputField" type='text' placeholder="Ask a question!" name='question'/>
+      <input type='text' placeholder="Ask a question!" name='question'/>
+      <textarea rows="5" cols="80" name="body"> </textarea>
     </form>
   </div>
   {% if latest_question_list %}
@@ -12,26 +13,31 @@
       <div class = "question">
         <div class = "row-fluid">
           <div class = "span1">
-            <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
+            {% if user.is_authenticated %}
+              <img class = "small-square" height = "50" width = "50" src = "{{ question.user.userprofile.picture }}">
+            {% else %}
+              <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
+            {% endif %}
           </div>
           <div class = "span10">
-            <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><h5>{{ question.user }}</h5></i></a>
+            <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><b>{{ question.user }}</b></i></a> in <b> {{ question.subject }} </b>
             <p class = "linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
-              {{ question.question_text }}
-            </p> <br/>
-	<b> {{ question.subject }} </b>
+              {{ question.question_text }} | {{ question.body }} 
+            </p>
           </div>
         </div>
         <div class="collapse" id="{{question.id}}">
           <div class="well" style = "margin:10px">
+            <ul id = "talk-{{question.id}}" class = "no-bullet">
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
               {% for answer in question.answer_set.all %}
+              <li>
                 <div class = "row-fluid">
-
+                  {% if user.is_authenticated %}
                   <div class = "span1 text-center">
-                    <span class="icon-arrow-up gray-glyph" aria-hidden="true"></span><br/>
-                    <span class="icon-arrow-down gray-glyph" aria-hidden="true"></span>
+                    <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
                   </div>
+                  {% endif %}
                   <div class = "span8" >
                     <p>
                       <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
@@ -41,10 +47,13 @@
                   </div>
                 </div>
                 <hr/>
+              </li>
               {% endfor %}
-            <form style = "margin-bottom: 0px" action="{% url 'forum:answer' question.id %}" method="post">
+            </ul>
+            <div id = "results-{{question.id}}"></div>
+            <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
             {% csrf_token %}
-              <input class="inputField" placeholder= "Answer" type='text' value='' name='answer'/>
+              <input id = "answer-{{question.id}}" class="inputField" placeholder= "Answer" type='text' value='' name='answer'/>
             </form>
           </div>
         </div>

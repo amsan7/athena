@@ -114,6 +114,7 @@ def add_question(request):
         try:
                 q = Question(
 			question_text=request.POST['question'], 
+			body = request.POST['body'],
 			pub_date=timezone.now(),
 			user=request.user
 			)
