@@ -15,7 +15,8 @@ def index(request):
     my_groups = Group.objects.all()
     context = {
     	'latest_question_list': latest_question_list, 
-	'my_groups' : my_groups
+	'my_groups' : my_groups,
+	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
 	}
     return render(request, 'forum/index.html', context)
 
@@ -116,7 +117,8 @@ def add_question(request):
 			question_text=request.POST['question'], 
 			body = request.POST['body'],
 			pub_date=timezone.now(),
-			user=request.user
+			user=request.user,
+			subject=request.POST['subject']
 			)
                # if request.user.is_authenticated():
                #     user.questions.add(q)

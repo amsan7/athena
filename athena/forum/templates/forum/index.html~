@@ -4,8 +4,12 @@
   <div class = "text-center thumbnail blue-head">
     <form style = "margin-bottom: 0px; margin-top: 5px" action="{% url 'forum:add_question' %}" method="POST">
       {% csrf_token %}
-      <input type='text' placeholder="Ask a question!" name='question'/>
-      <textarea rows="5" cols="80" name="body"> </textarea>
+      <input type='text' placeholder="Ask a question!" name='question'/> <br/>
+      <textarea rows="5" placeholder="Details here." cols="80" name="body"> </textarea> <br/>
+      <input type="submit" value="Ask!"> <br/>
+      {% for subject in subject_choices %}
+	<input type="radio" name="subject" value={{ subject }}> {{ subject }} <br/>
+      {% endfor %}
     </form>
   </div>
   {% if latest_question_list %}
