@@ -5,20 +5,16 @@
 <form action="{% url 'groups:add_group' %}" method="POST">
 {% csrf_token %}
 	<div>
-		<input class="inputField" type='text' value='' name='group_name' placeholder='Name'/>
-		<br>
-		<input class="inputField" type='text' value='' name='topics' placeholder='Topics'/>
-		<br>
+		<input class="inputField" type='text' value='' name='group_name' placeholder='Name'/><br>
+		<input class="inputField" type='text' value='' name='topic' placeholder='Topic'/><br>
 		{% if all_users %}
-		<select multiple name="members">		
 			{% for user in all_users %}
-				<option value="{{ user.id }}">{{user.username}}</option>
+				<input type="checkbox" name="members" id="option{{user.id}}" value={{ user.id }} />
+				<label for="option{{user.id}}"><b>{{user.username}}</b></label><br />
 			{% endfor %}
-		</select>
 		{% else %}
-		<p>no users</p>
+			<p>no users</p>
 		{% endif %}
-		
 	</div>
 		<input type="submit" value="Make Group" />
 </form>

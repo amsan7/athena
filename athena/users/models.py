@@ -1,6 +1,6 @@
 from django.db import models
-from forum.models import Question, Answer
-from groups.models import Group
+# from forum.models import Question, Answer
+# from groups.models import Group
 from django.contrib.auth.models import User
 
 class UserProfile(models.Model):
@@ -18,14 +18,14 @@ class UserProfile(models.Model):
 
     lastName = models.CharField(max_length=500, default='last name')
 
-    # field for questions
-    questions = models.ManyToManyField(Question)
+    # # field for questions
+    # questions = models.ManyToManyField(Question)
 
-    # field for answers
-    answers = models.ManyToManyField(Answer)
+    # # field for answers
+    # answers = models.ManyToManyField(Answer)
 
-    # field for groups
-    groups = models.ManyToManyField(Group)
+    # # field for groups
+    # groups = models.ManyToManyField(Group)
 
 
     #TODO:

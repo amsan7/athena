@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from groups.models import Group
+from users.models import UserProfile
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
 
@@ -48,14 +49,15 @@ def new(request):
 @login_required
 def add_group(request):
     print("checkbox input field")
-    print(len(request.POST["members"]))
+    print(request.POST.getlist('members'))
     try:
         g = Group(
             group_name=request.POST['group_name'], 
-            topic=request.POST['topics'], 
+            topic=request.POST['topic'], 
             create_date=timezone.now(),
-            creator_username=request.user.username,
+            creator_username=request.user.username
             )
+        g.group_members.add(UserProfile.objects.get(pk=request.POST.getlist('members')))
     except(KeyError, Group.DoesNotExist):
         return render(request, '/forum/index', {
             'error_message': "!",
