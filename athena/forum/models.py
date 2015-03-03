@@ -3,10 +3,12 @@ from groups.models import Group
 from django.contrib.auth.models import User
 
 class Question(models.Model):
-	question_text = models.CharField(max_length=5000)
+	question_text = models.CharField(max_length=500)
+	body = models.CharField(max_length=5000)
 	pub_date = models.DateTimeField('date published')
 	user = models.ForeignKey(User)
 	# group = models.ForeignKey(Group, default=None)
+	
 
 	MATH = 'Math'
 	PHYSICS = 'Physics'

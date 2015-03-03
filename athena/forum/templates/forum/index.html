@@ -4,7 +4,12 @@
   <div class = "text-center thumbnail blue-head">
     <form style = "margin-bottom: 0px; margin-top: 5px" action="{% url 'forum:add_question' %}" method="POST">
       {% csrf_token %}
-      <input class="inputField" type='text' placeholder="Ask a question!" name='question'/>
+      <input type='text' placeholder="Ask a question!" name='question'/> <br/>
+      <textarea rows="5" placeholder="Details here." cols="80" name="body"> </textarea> <br/>
+      <input type="submit" value="Ask!"> <br/>
+      {% for subject in subject_choices %}
+	<input type="radio" name="subject" value={{ subject }}> {{ subject }}
+      {% endfor %}
     </form>
   </div>
   {% if latest_question_list %}
@@ -21,7 +26,7 @@
           <div class = "span10">
             <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><b>{{ question.user }}</b></i></a> in <b> {{ question.subject }} </b>
             <p class = "linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
-              {{ question.question_text }}
+              {{ question.question_text }} | {{ question.body }} 
             </p>
           </div>
         </div>
