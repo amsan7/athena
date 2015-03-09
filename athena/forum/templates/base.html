@@ -35,6 +35,9 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'users:profile' %}"> Profile</a></li>
                     <li><a href="/groups/">Groups</a></li>
+                    {% if user.is_authenticated %}
+                      <li><a href="{% url 'users:edit_profile' %}">Edit Profile</a></li>
+                    {% endif %}
                 </ul>
               </li>
 
