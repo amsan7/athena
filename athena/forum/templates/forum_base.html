@@ -22,12 +22,14 @@
                   <h4>{{ user.username }}</h4>
                 </a>
                 <p> {{ user.userprofile.school }} </br> 
-		    {% if user.userprofile.isTeacher %}  
-			Teacher
-		    {% else %}
-			Student
-		    {% endif %}
-		</p>
+		            {% if user.userprofile.isTeacher %}  
+			           Teacher
+		            {% else %}
+			           Student
+		            {% endif %}
+                <br/>
+                <a class = "tiny-text" href="{% url 'users:edit_profile' %}">Edit Profile</a>
+		            </p>
                 <div class = "text-right" ><a href="{% url 'users:logout' %}">Logout</a></div>
               </div>
             </div>

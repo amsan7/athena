@@ -1,15 +1,15 @@
 {% extends "forum_base.html" %}
 
 {% block forum %}
-  <div class = "text-center thumbnail blue-head">
-    <h3 data-toggle="collapse" href="#question-form" aria-expanded="false" aria-controls="question-form">Ask a Question
+  <div class = "text-center thumbnail blue-head link question-button">
+    <h3 style = "margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse" href="#question-form" aria-expanded="false" aria-controls="question-form">Ask a Question
     </h3>
     <div id = "question-form" class = "collapse">
       <form style = "margin-bottom: 0px; margin-top: 5px; text-align: left;" action="{% url 'forum:add_question' %}" method="POST">
-        <div class = "form-group">
+        <div class = "form-group" style = "padding: 15px;">
           {% csrf_token %}
-          <input type='text' style = "width: 50%;" placeholder="Enter a one line summary of your question..." name='question'></input> <br/>
-          <textarea rows="5" style = "width: 100%" placeholder="Your question in more detail here!" name="body"></textarea> <br/>
+          <input type='text' style = "min-width: 290px; width: 75%;" placeholder="Enter a one line summary of your question..." name='question'></input> <br/>
+          <textarea rows="7" style = "width: 97%" placeholder="Your question in more detail here!" name="body"></textarea> <br/>
           {% for subject in subject_choices %}
     	       <input type="radio" name="subject" value={{ subject }}> {{ subject }}&nbsp;&nbsp;
           {% endfor %}
@@ -56,7 +56,7 @@
                     <p>
                       <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
                       </i></br>
-                      {{ answer|safe }} 
+                      {{ answer }} 
                     </p>
                   </div>
                 </div>
