@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from users.forms import UserForm, UserProfileForm
+from users.forms import UserForm, UserProfileForm, EditProfileForm
 from users.models import UserProfile
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -131,6 +131,21 @@ def user_profile(request, user_id=0):
 	raise Http404("Profile does not exist!")
     return render(request, 'users/profile.html', {'user': user, 'profile': profile})
     
+@login_required
+def edit_user_profile(request, user_id=0):
+    if user_id==0:
+        user = User.objects.get(pk=request.user.id)
+        profile = user.userprofile
+
+        if request.method == 'POST':
+            form = EditProfileForm(data=request.POST, instance=request.user)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect('/users/profile')
+        else:
+            form = EditProfileForm()
+
+        return render(request, 'users/edit_profile.html', {'form': form})
 
 
 @login_required
