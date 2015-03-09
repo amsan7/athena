@@ -83,7 +83,7 @@
           console.log("up-vote clicked");  // sanity check
           var answer_id = $(this).attr('value');
           console.log(answer_id);
-          upvote(answer_id);
+          upvote(answer_id, {{user.id}});
       });
 
       $('.down-vote').on('click', function(event){
@@ -91,7 +91,7 @@
           console.log("down-vote clicked");  // sanity check
           var answer_id = $(this).attr('value');
           console.log(answer_id);
-          downvote(answer_id);
+          downvote(answer_id, {{user.id}});
       });
 
     </script>

@@ -35,11 +35,11 @@ class Answer(models.Model):
 	user = models.ForeignKey(User)
 	upvotes = models.IntegerField(default=0)
 
-	def upvote(self):
+	def upvote(self, voter_id):
 		self.upvotes = self.upvotes + 1
 		self.save()
 
-	def downvote(self):
+	def downvote(self, voter_id):
 		self.upvotes = self.upvotes - 1
 		self.save()
 

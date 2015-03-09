@@ -39,7 +39,7 @@
         <div class="collapse" id="{{question.id}}">
           <div class = "row-fluid">
             <div class = "span1"></div>
-            <div class = "span10"><p class = "question-text" style = "margin: 5px">   {{ question.body }} </p></div>
+            <div class = "span10"><p data-toggle="collapse" href="#{{question.id}}" class = "question-text" style = "margin: 5px">   {{ question.body }} </p></div>
           </div>
           <div class="well" style = "margin:10px">
             <ul id = "talk-{{question.id}}" class = "no-bullet">

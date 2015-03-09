@@ -35,9 +35,10 @@ def results(request, question_id):
 def upvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
+        voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.upvote()
+        answer.upvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
 
@@ -50,9 +51,10 @@ def upvote(request, question_id = 0):
 def downvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
+        voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.downvote()
+        answer.downvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
 
