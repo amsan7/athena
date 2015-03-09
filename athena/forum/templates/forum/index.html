@@ -10,9 +10,12 @@
           {% csrf_token %}
           <input type='text' style = "min-width: 290px; width: 75%;" placeholder="Enter a one line summary of your question..." name='question'></input> <br/>
           <textarea rows="7" style = "width: 97%" placeholder="Your question in more detail here!" name="body"></textarea> <br/>
+          <select name="subject">
+            <option value="" disabled selected>Select a Subject!</option>
           {% for subject in subject_choices %}
-    	       <input type="radio" name="subject" value={{ subject }}> {{ subject }}&nbsp;&nbsp;
+    	       <option value={{ subject }}> {{ subject }}</option>
           {% endfor %}
+          </select>
           <br/>
           <input class = "btn" type="submit" value="Ask!" style = "margin-top:10px;">
         </div>
