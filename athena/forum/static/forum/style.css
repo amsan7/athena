@@ -81,3 +81,10 @@ hr{
 	font-size: 13px;
 	color: #777777;
 }
+
+.question-title{
+	font-size: 15px;
+}
+.question-text{
+	font-size: 13px;
+}
