@@ -9,6 +9,11 @@
 
 }
 
+.blue-head.question-button{
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
 .blue-head.link:hover{
 	background-color: #4598C1;
 	border: 1px solid #4598C1;
@@ -80,4 +85,17 @@ hr{
 .answer-small{
 	font-size: 13px;
 	color: #777777;
+}
+
+.question-title{
+	font-size: 15px;
+}
+.question-text{
+	font-size: 13px;
+}
+.question-button:hover{
+
+}
+.tiny-text{
+	font-size: 12px;
 }

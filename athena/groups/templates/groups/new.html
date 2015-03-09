@@ -7,10 +7,13 @@
 	<div>
 		<input class="inputField" type='text' value='' name='group_name' placeholder='Name'/><br>
 		<input class="inputField" type='text' value='' name='topic' placeholder='Topic'/><br>
+		{% for type in group_choices %}
+		<input type="radio" name="type" value={{ type }}> {{ type }}
+      	{% endfor %}
 		{% if all_users %}
 			{% for user in all_users %}
 				<input type="checkbox" name="members" id="option{{user.id}}" value={{ user.id }} />
-				<label for="option{{user.id}}"><b>{{user.username}}</b></label><br />
+				<label for="option{{user.id}}">{{user.username}}</label><br />
 			{% endfor %}
 		{% else %}
 			<p>no users</p>

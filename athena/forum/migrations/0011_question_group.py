@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('groups', '0005_auto_20150306_0008'),
+        ('groups', '0005_remove_group_group_members'),
         ('forum', '0010_auto_20150302_2351'),
     ]
 
@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='question',
             name='group',
-            field=models.ForeignKey(default=None, to='groups.Group'),
+            field=models.ForeignKey(blank=True, to='groups.Group', null=True),
             preserve_default=True,
         ),
     ]

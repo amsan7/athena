@@ -35,6 +35,9 @@
                 <ul class="dropdown-menu">
                     <li><a href="{% url 'users:profile' %}"> Profile</a></li>
                     <li><a href="/groups/">Groups</a></li>
+                    {% if user.is_authenticated %}
+                      <li><a href="{% url 'users:edit_profile' %}">Edit Profile</a></li>
+                    {% endif %}
                 </ul>
               </li>
 
@@ -83,7 +86,7 @@
           console.log("up-vote clicked");  // sanity check
           var answer_id = $(this).attr('value');
           console.log(answer_id);
-          upvote(answer_id);
+          upvote(answer_id, {{user.id}});
       });
 
       $('.down-vote').on('click', function(event){
@@ -91,7 +94,7 @@
           console.log("down-vote clicked");  // sanity check
           var answer_id = $(this).attr('value');
           console.log(answer_id);
-          downvote(answer_id);
+          downvote(answer_id, {{user.id}});
       });
 
     </script>

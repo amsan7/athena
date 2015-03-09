@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 
 class Question(models.Model):
 	question_text = models.CharField(max_length=500)
-	body = models.CharField(max_length=5000)
+	body = models.TextField()
 	pub_date = models.DateTimeField('date published')
 	user = models.ForeignKey(User)
-	group = models.ForeignKey(Group, default=None)
+	group = models.ForeignKey(Group, null=True, blank=True)
 	
 
 	MATH = 'Math'
@@ -31,15 +31,15 @@ class Question(models.Model):
 
 class Answer(models.Model):
 	question = models.ForeignKey(Question)
-	answer_text = models.CharField(max_length=5000)
+	answer_text = models.TextField()
 	user = models.ForeignKey(User)
 	upvotes = models.IntegerField(default=0)
 
-	def upvote(self):
+	def upvote(self, voter_id):
 		self.upvotes = self.upvotes + 1
 		self.save()
 
-	def downvote(self):
+	def downvote(self, voter_id):
 		self.upvotes = self.upvotes - 1
 		self.save()
 

@@ -35,9 +35,10 @@ def results(request, question_id):
 def upvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
+        voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.upvote()
+        answer.upvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
 
@@ -50,9 +51,10 @@ def upvote(request, question_id = 0):
 def downvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
+        voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.downvote()
+        answer.downvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
 
@@ -66,6 +68,8 @@ def downvote(request, question_id = 0):
 def answer(request, question_id = 0):
     if request.method == 'POST':
         answer_text = request.POST.get('answer_text')
+        answer_text = answer_text.replace("\n", "<br/>")
+        answer_text = answer_text.replace(" ", "&nbsp;")
         question_id = request.POST.get('q_id')
         original_question=Question.objects.get(pk=question_id)
         response_data = {}
@@ -127,5 +131,7 @@ def add_question(request):
                         'error_message': "Question must not be empty!",
                 })
         else:
+                q.body = q.body.replace("\n", "<br/>")
+                q.body = q.body.replace(" ", "&nbsp;")
                 q.save()
                 return HttpResponseRedirect(reverse('forum:index'))

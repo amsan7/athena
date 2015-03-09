@@ -1,16 +1,26 @@
 {% extends "forum_base.html" %}
 
 {% block forum %}
-  <div class = "text-center thumbnail blue-head">
-    <form style = "margin-bottom: 0px; margin-top: 5px" action="{% url 'forum:add_question' %}" method="POST">
-      {% csrf_token %}
-      <input type='text' placeholder="Ask a question!" name='question'/> <br/>
-      <textarea rows="5" placeholder="Details here." cols="80" name="body"> </textarea> <br/>
-      <input type="submit" value="Ask!"> <br/>
-      {% for subject in subject_choices %}
-	<input type="radio" name="subject" value={{ subject }}> {{ subject }}
-      {% endfor %}
-    </form>
+  <div class = "text-center thumbnail blue-head link question-button">
+    <h3 style = "margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse" href="#question-form" aria-expanded="false" aria-controls="question-form">Ask a Question
+    </h3>
+    <div id = "question-form" class = "collapse">
+      <form style = "margin-bottom: 0px; margin-top: 5px; text-align: left;" action="{% url 'forum:add_question' %}" method="POST">
+        <div class = "form-group" style = "padding: 15px;">
+          {% csrf_token %}
+          <input type='text' style = "min-width: 290px; width: 75%;" placeholder="Enter a one line summary of your question..." name='question'></input> <br/>
+          <textarea rows="7" style = "width: 97%" placeholder="Your question in more detail here!" name="body"></textarea> <br/>
+          <select name="subject">
+            <option value="" disabled selected>Select a Subject!</option>
+          {% for subject in subject_choices %}
+    	       <option value={{ subject }}> {{ subject }}</option>
+          {% endfor %}
+          </select>
+          <br/>
+          <input class = "btn" type="submit" value="Ask!" style = "margin-top:10px;">
+        </div>
+      </form>
+    </div>
   </div>
   {% if latest_question_list %}
     {% for question in latest_question_list %}
@@ -25,12 +35,15 @@
           </div>
           <div class = "span10">
             <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><b>{{ question.user }}</b></i></a> in <b> {{ question.subject }} </b>
-            <p class = "linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">
-              {{ question.question_text }} | {{ question.body }} 
+            <p class = "question-title linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">{{ question.question_text }}
             </p>
           </div>
         </div>
         <div class="collapse" id="{{question.id}}">
+          <div class = "row-fluid">
+            <div class = "span1"></div>
+            <div class = "span10"><p data-toggle="collapse" href="#{{question.id}}" class = "question-text" style = "margin: 5px">   {{ question.body|safe}} </p></div>
+          </div>
           <div class="well" style = "margin:10px">
             <ul id = "talk-{{question.id}}" class = "no-bullet">
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -46,7 +59,7 @@
                     <p>
                       <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
                       </i></br>
-                      {{ answer }} 
+                      {{ answer|safe }} 
                     </p>
                   </div>
                 </div>
@@ -57,7 +70,7 @@
             <div id = "results-{{question.id}}"></div>
             <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
             {% csrf_token %}
-              <input id = "answer-{{question.id}}" class="inputField" placeholder= "Answer" type='text' value='' name='answer'/>
+              <textarea id = "answer-{{question.id}}" name='answer' rows="5" style = "width: 90%" placeholder="Answer!" name="body"></textarea><input class = "btn" type="submit" value="Submit" ></input>
             </form>
           </div>
         </div>

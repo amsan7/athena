@@ -24,7 +24,9 @@ def detail(request, group_id):
 
 def new(request):
     all_users = User.objects.all()
-    context = {'all_users' : all_users}
+    context = {'all_users' : all_users,
+    'group_choices' : [type[0] for type in Group.GROUP_CHOICES]
+    }
     return render(request, 'groups/new.html', context)
 
 # def edit(request, group_id):
@@ -57,7 +59,14 @@ def add_group(request):
             create_date=timezone.now(),
             creator_username=request.user.username
             )
-        g.group_members.add(UserProfile.objects.get(pk=request.POST.getlist('members')))
+        g.save()
+        groupMembers = request.POST.getlist('members')
+        for u in groupMembers:
+            print u
+            print UserProfile.objects.get(pk=u)
+            g.group_members.add(UserProfile.objects.get(pk=u))
+        # g.group_members.add(UserProfile.objects.get(pk=request.POST.getlist('members')))
+
     except(KeyError, Group.DoesNotExist):
         return render(request, '/forum/index', {
             'error_message': "!",

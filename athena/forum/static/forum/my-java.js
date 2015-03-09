@@ -49,14 +49,14 @@ function answer(question_id){
 
 }
 
-function upvote(answer_id){
-  console.log("does answer know its id?")
-  console.log(answer_id);
+function upvote(answer_id, voter_id){
+  console.log("does answer know its voter id?")
+  console.log(voter_id);
 
   $.ajax({
     url : "upvote/", // the endpoint
     type : "POST", // http method
-    data : { a_id: answer_id }, // data sent with the post request
+    data : { a_id: answer_id, v_id: voter_id }, // data sent with the post request
 
     // handle a successful response
     success : function(json) {
@@ -77,14 +77,14 @@ function upvote(answer_id){
 
 }
 
-function downvote(answer_id){
+function downvote(answer_id, voter_id){
   console.log("does answer know its id?")
   console.log(answer_id);
   
   $.ajax({
     url : "downvote/", // the endpoint
     type : "POST", // http method
-    data : { a_id: answer_id }, // data sent with the post request
+    data : { a_id: answer_id, v_id: voter_id  }, // data sent with the post request
 
     // handle a successful response
     success : function(json) {
