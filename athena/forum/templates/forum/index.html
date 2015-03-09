@@ -56,7 +56,7 @@
                     <p>
                       <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
                       </i></br>
-                      {{ answer }} 
+                      {{ answer|safe }} 
                     </p>
                   </div>
                 </div>
