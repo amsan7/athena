@@ -68,6 +68,7 @@ def downvote(request, question_id = 0):
 def answer(request, question_id = 0):
     if request.method == 'POST':
         answer_text = request.POST.get('answer_text')
+        answer_text = answer_text.replace("\n", "<br/>")
         question_id = request.POST.get('q_id')
         original_question=Question.objects.get(pk=question_id)
         response_data = {}
@@ -129,5 +130,6 @@ def add_question(request):
                         'error_message': "Question must not be empty!",
                 })
         else:
+                q.body = q.body.replace("\n", "<br/>")
                 q.save()
                 return HttpResponseRedirect(reverse('forum:index'))

@@ -39,7 +39,7 @@
         <div class="collapse" id="{{question.id}}">
           <div class = "row-fluid">
             <div class = "span1"></div>
-            <div class = "span10"><p data-toggle="collapse" href="#{{question.id}}" class = "question-text" style = "margin: 5px">   {{ question.body }} </p></div>
+            <div class = "span10"><p data-toggle="collapse" href="#{{question.id}}" class = "question-text" style = "margin: 5px">   {{ question.body|safe}} </p></div>
           </div>
           <div class="well" style = "margin:10px">
             <ul id = "talk-{{question.id}}" class = "no-bullet">
@@ -56,7 +56,7 @@
                     <p>
                       <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
                       </i></br>
-                      {{ answer }} 
+                      {{ answer|safe }} 
                     </p>
                   </div>
                 </div>
@@ -67,7 +67,7 @@
             <div id = "results-{{question.id}}"></div>
             <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
             {% csrf_token %}
-              <input id = "answer-{{question.id}}" class="inputField" placeholder= "Answer" type='text' value='' name='answer'/>
+              <textarea id = "answer-{{question.id}}" name='answer' rows="5" style = "width: 90%" placeholder="Answer!" name="body"></textarea><input class = "btn" type="submit" value="Submit" ></input>
             </form>
           </div>
         </div>
