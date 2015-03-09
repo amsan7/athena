@@ -7,7 +7,7 @@ class Question(models.Model):
 	body = models.CharField(max_length=5000)
 	pub_date = models.DateTimeField('date published')
 	user = models.ForeignKey(User)
-	# group = models.ForeignKey(Group, default=None)
+	group = models.ForeignKey(Group, null=True, blank=True)
 	
 
 	MATH = 'Math'
