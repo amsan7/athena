@@ -8,6 +8,17 @@ class Group(models.Model):
 	creator_username = models.CharField(max_length=5000)#group creator (has power to delete group/etc)
 	group_members = models.ManyToManyField(UserProfile)	
 	topic = models.CharField(max_length=500)
+	OPEN = 'Open'
+	CLOSED = 'Closed'
+	SECRET = 'Secret'
+	GROUP_CHOICES = (
+		(OPEN, OPEN),
+		(CLOSED, CLOSED),
+		(SECRET, SECRET)
+	)
+	type = models.CharField(max_length=15,
+				   choices = GROUP_CHOICES,
+				   default=OPEN)
 	def __str__(self):
 		return self.group_name
 
