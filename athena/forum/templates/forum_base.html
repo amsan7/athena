@@ -19,9 +19,9 @@
               </div>
               <div class = "span7" style = "padding-right: 5px;">
                 <a class = "hidden-link" href = "{% url 'users:profile' %}">
-                  <h4>{{ user.username }}</h4>
+                  <h4 style = "margin-bottom: 0px;">{{ user.userprofile.firstName }} {{user.userprofile.lastName}}</h4><span style = "color: #777777" >@{{user.username}}</span>
                 </a>
-                <p> {{ user.userprofile.school }} </br> 
+                <p style = "margin-top: 5px;">{{ user.userprofile.school }} </br> 
 		            {% if user.userprofile.isTeacher %}  
 			           Teacher
 		            {% else %}
