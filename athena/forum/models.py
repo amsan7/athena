@@ -34,7 +34,6 @@ class Question(models.Model):
 		for user in users:
 			if user.userprofile.isTeacher:
 				teachers.append(user)
-		#print teachers
 		
 		t_answers = self.answer_set.filter(user__in = teachers)
 		return t_answers.order_by('-upvotes')
@@ -45,10 +44,23 @@ class Question(models.Model):
 		for user in users:
 			if not user.userprofile.isTeacher:
 				students.append(user)
-		#print teachers
 		
 		s_answers = self.answer_set.filter(user__in = students)
 		return s_answers.order_by('-upvotes')
+
+	def top_teacher_answers(self):
+		answers = self.teacher_answers()
+		if len(answers) > 2:
+			return answers[:2]
+		else:
+			return answers
+
+	def top_student_answers(self):
+		answers = self.student_answers()
+		if len(answers) > 5:
+			return answers[:5]
+		else:
+			return answers
 	
 	def __str__(self):
 		return self.question_text + str(self.pub_date)

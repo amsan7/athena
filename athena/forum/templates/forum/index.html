@@ -54,9 +54,9 @@
           <div class="well" style = "margin:10px ">
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-            <h4 class = "text-center">Teacher Answers</h4><hr/>
+            <h4 class = "text-center">Teacher Answers</h4><br/>
             <ul id = "{% if user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
-            {% for answer in question.teacher_answers %}
+            {% for answer in question.top_teacher_answers %}
               <li>
                 <div class = "row-fluid">
                   {% if user.is_authenticated %}
@@ -76,9 +76,9 @@
               </li>
             {% endfor %}
             </ul>
-            <h4 class = "text-center">Student Answers</h4><hr/>
+            <h4 class = "text-center">Student Answers</h4><br/>
             <ul id = "{% if not user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
-            {% for answer in question.student_answers %}
+            {% for answer in question.top_student_answers %}
               <li>
                 <div class = "row-fluid">
                   {% if user.is_authenticated %}
@@ -98,7 +98,7 @@
               </li>
             {% endfor %}
             </ul>
-            
+            <div class = "text-center" style = "margin-bottom:10px;"><a href = "{% url 'forum:detail' question.id %}">see more</a></div>
             <div id = "results-{{question.id}}"></div>
             <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
             {% csrf_token %}

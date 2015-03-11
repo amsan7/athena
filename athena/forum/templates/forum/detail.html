@@ -21,7 +21,7 @@
 
 	<div class="well" style = "margin:10px">
 	  {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-	  <h4 class = "text-center">Teacher Answers</h4><hr/>
+	  <h4 class = "text-center">Teacher Answers</h4><br/>
 	  <ul id = "{% if user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
 	  {% for answer in question.teacher_answers %}
 	  	<li>
@@ -43,7 +43,7 @@
 	    </li>
 	  {% endfor %}
 	  </ul>
-	  <h4 class = "text-center">Student Answers</h4><hr/>
+	  <h4 class = "text-center">Student Answers</h4><br/>
 	  <ul id = "{% if not user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
 	  {% for answer in question.student_answers %}
 	  	<li>
