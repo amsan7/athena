@@ -69,7 +69,6 @@ def answer(request, question_id = 0):
     if request.method == 'POST':
         answer_text = request.POST.get('answer_text')
         answer_text = answer_text.replace("\n", "<br/>")
-        answer_text = answer_text.replace(" ", "&nbsp;")
         question_id = request.POST.get('q_id')
         original_question=Question.objects.get(pk=question_id)
         response_data = {}
@@ -132,6 +131,5 @@ def add_question(request):
                 })
         else:
                 q.body = q.body.replace("\n", "<br/>")
-                q.body = q.body.replace(" ", "&nbsp;")
                 q.save()
                 return HttpResponseRedirect(reverse('forum:index'))

@@ -19,7 +19,7 @@
               </div>
               <div class = "span7" style = "padding-right: 5px;">
                 <a class = "hidden-link" href = "{% url 'users:profile' %}">
-                  <h4 style = "margin-bottom: 0px;">{{ user.userprofile.firstName }} {{user.userprofile.lastName}}</h4><span style = "color: #777777" >@{{user.username}}</span>
+                  <h4 style = "margin-bottom: 0px;">{{ user.userprofile.firstName }} {{user.userprofile.lastName}}</h4><span style = "color: #777777" >{{user.username}}</span>
                 </a>
                 <p style = "margin-top: 5px;">{{ user.userprofile.school }} </br> 
 		            {% if user.userprofile.isTeacher %}  
@@ -28,7 +28,9 @@
 			           Student
 		            {% endif %}
                 <br/>
-                <a class = "tiny-text" href="{% url 'users:edit_profile' %}">Edit Profile</a>
+                {% if profile.user.id == null or self == 0%}
+                  <a class = "tiny-text" href="{% url 'users:edit_profile' %}">Edit Profile</a>
+                {% endif %}
 		            </p>
                 <div class = "text-right" ><a href="{% url 'users:logout' %}">Logout</a></div>
               </div>
@@ -78,7 +80,7 @@
 
     <!-- end sidebar -->
 
-    <div class = "span8 thumbnail" style = "background-color: white; padding: 0px;">
+    <div class = "span8">
       {% block forum %}
       {% endblock %}
     </div>

@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from models import User
+from sets import Set
 
 def register(request):
     # Like before, get the request's context.
@@ -120,6 +121,7 @@ def user_login(request):
 
 @login_required
 def user_profile(request, user_id=0):
+
     try:
 	    if user_id==0:
 	        user = User.objects.get(pk=request.user.id)
@@ -129,7 +131,15 @@ def user_profile(request, user_id=0):
 	        profile = user.userprofile
     except User.DoesNotExist:
 	raise Http404("Profile does not exist!")
-    return render(request, 'users/profile.html', {'user': user, 'profile': profile})
+
+    answer_list = user.answer_set.all()
+    answered_questions = Set([])
+    for answer in answer_list:
+        answered_questions.add(answer.question)
+
+    sorted_answered_questions = sorted(answered_questions, key=lambda x: x.pub_date, reverse=True)
+
+    return render(request, 'users/profile.html', {'user': user, 'profile': profile, 'self': user_id, 'answered_questions': sorted_answered_questions})
     
 @login_required
 def edit_user_profile(request, user_id=0):

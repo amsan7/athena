@@ -1,8 +1,23 @@
 {% extends "forum_base.html" %}
 
 {% block forum %}
-	<h3 class = "text-center">{{ question.question_text }}</h3>
-	<hr/>
+<div class = "thumbnail" style = "background-color: white; padding: 0px;">
+	<div class = "row-fluid" style = "margin:15px;">
+	  <div class = "span2">
+	    {% if user.is_authenticated %}
+	      <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><img class = "square-medium" src = "{{ question.user.userprofile.picture }}"></a>
+	    {% else %}
+	      <img class = "square-medium" src = "{{STATIC_URL}}forum/flag.png">
+	    {% endif %}
+	    <span class = "text-center tiny-text" style = "{% if question.user.userprofile.isTeacher %}color: #FF6600{% else %}color: #0077bb{% endif %}">{% if question.user.userprofile.isTeacher %}Teacher{% else %}{% endif %}</span>
+	  </div>
+	  <div class = "span9">
+	    <span style = "font-size: 13px;"><a class = "hidden-link" href="{% url 'users:profile' question.user.id %}" style = "{% if question.user.userprofile.isTeacher %} color: #FF6600 {% endif %}"><i><b>{{ question.user }}</b></i></a> in {{ question.subject }}</span> &nbsp;&nbsp;<span class = "text-right tiny-text {% if question.user.userprofile.isTeacher %}white-text{% else %}gray-text{% endif %}">{% if question.answer_set.all|length == 1 %} 1 Answer {% elif question.answer_set.all|length == 0 %} Answers needed! {% else %} {{question.answer_set.all|length}} Answers {% endif %}</span>
+	    <h3  style = "margin: 5px" >{{ question.question_text }}
+	    </h3>
+	    <p class = "question-text detail">   {{ question.body|safe}} </p>
+	  </div>
+	</div>
 
 	<div class="well" style = "margin:10px">
 	  <ul id = "talk-{{question.id}}" class = "no-bullet">
@@ -10,16 +25,16 @@
 	    {% for answer in question.answer_set.all %}
 	    <li>
 	      <div class = "row-fluid">
-	      	{% if user.is_authenticated %}
+	        {% if user.is_authenticated %}
 	        <div class = "span1 text-center">
 	          <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
 	        </div>
 	        {% endif %}
-	        <div class = "span8" >
-	          <p>
+	        <div class = "span11" >
+	          <p class = "answer-text">
 	            <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
 	            </i></br>
-	            {{ answer }} 
+	            {{ answer|safe }} 
 	          </p>
 	        </div>
 	      </div>
@@ -30,8 +45,8 @@
 	  <div id = "results-{{question.id}}"></div>
 	  <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
 	  {% csrf_token %}
-	    <input id = "answer-{{question.id}}" class="inputField" placeholder= "Answer" type='text' value='' name='answer'/>
+	    <textarea id = "answer-{{question.id}}" name='answer' rows="5" style = "width: 90%" placeholder="Answer!" name="body"></textarea><input class = "btn btn-primary" type="submit" value="Submit" ></input>
 	  </form>
 	</div>
-
+</div>
 {% endblock %}

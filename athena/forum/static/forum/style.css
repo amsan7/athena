@@ -1,7 +1,6 @@
 .blue-head{
 	background-color: #4DA9D6;
 	color: white;
-	text-shadow: -1px 0 #9999aa, 0 1px #9999aa, 1px 0 #9999aa, 0 -1px #9999aa;
 	letter-spacing: 1px;
 	padding-top: 15px;
 	padding-bottom: 15px;
@@ -60,7 +59,13 @@ hr{
 	text-decoration: none;
 }
 
+.linked{
+	text-decoration: none;
+	color: black;
+}
+
 .linked:hover{
+	text-decoration: none;
 	color: #4DA9D6;
 }
 
@@ -73,9 +78,16 @@ hr{
 
 .square-small {
 	width: 50px;
-    height: 50px;
+    height: auto;
     overflow: hidden;
-    margin: 5px;
+    margin: 5px 5px 5px 0px;
+}
+
+.square-medium {
+	width: 100px;
+    height: auto;
+    overflow: hidden;
+    margin: 5px 5px 5px 0px;
 }
 
 .no-bullet{
@@ -87,15 +99,35 @@ hr{
 	color: #777777;
 }
 
+.answer-text{
+	word-wrap: break-word;
+}
+
 .question-title{
 	font-size: 15px;
 }
 .question-text{
 	font-size: 13px;
+	margin: 5px;
+	margin-left:15px; 
+	word-wrap: break-word;
+}
+.question-text.detail{
+	font-size: 15px;
+	margin: 5px;
+	margin-left:15px; 
+	word-wrap: break-word;
 }
 .question-button:hover{
 
 }
 .tiny-text{
 	font-size: 12px;
+}
+
+.gray-text{
+	color: #888888;
+}
+.white-text{
+	color: #666666;
 }

@@ -1,14 +1,16 @@
 {% extends "forum_base.html" %}
 
 {% block forum %}
+<div class = "thumbnail" style = "background-color: white; padding: 0px;">
   <div class = "text-center thumbnail blue-head link question-button">
-    <h3 style = "margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse" href="#question-form" aria-expanded="false" aria-controls="question-form">Ask a Question
+    <h3 style = "margin-top: 15px; margin-bottom: 0px;">Ask a Question!
     </h3>
-    <div id = "question-form" class = "collapse">
-      <form style = "margin-bottom: 0px; margin-top: 5px; text-align: left;" action="{% url 'forum:add_question' %}" method="POST">
+    
+      <form style = "margin-bottom: 0px; margin-top: 0px; text-align: left;" action="{% url 'forum:add_question' %}" method="POST">
         <div class = "form-group" style = "padding: 15px;">
           {% csrf_token %}
-          <input type='text' style = "min-width: 290px; width: 75%;" placeholder="Enter a one line summary of your question..." name='question'></input> <br/>
+          <input data-toggle="collapse" href="#question-form" aria-expanded="false" aria-controls="question-form" type='text' style = "min-width: 290px; width: 97%;" placeholder="Enter a one line summary of your question..." name='question'></input> <br/>
+          <div id = "question-form" class = "collapse">
           <textarea rows="7" style = "width: 97%" placeholder="Your question in more detail here!" name="body"></textarea> <br/>
           <select name="subject">
             <option value="" disabled selected>Select a Subject!</option>
@@ -18,33 +20,38 @@
           </select>
           <br/>
           <input class = "btn" type="submit" value="Ask!" style = "margin-top:10px;">
+          </div>
         </div>
       </form>
-    </div>
+    
   </div>
   {% if latest_question_list %}
     {% for question in latest_question_list %}
+      <div style = "border-bottom: solid #dddddd 1px; margin : 0px; padding-top: 5px;">
       <div class = "question">
         <div class = "row-fluid">
           <div class = "span1">
             {% if user.is_authenticated %}
-              <img class = "small-square" height = "50" width = "50" src = "{{ question.user.userprofile.picture }}">
+              <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><img class = "square-small" src = "{{ question.user.userprofile.picture }}"></a>
             {% else %}
-              <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
+              <img class = "square-small" src = "{{STATIC_URL}}forum/flag.png">
             {% endif %}
+            <span class = "text-center tiny-text" style = "{% if question.user.userprofile.isTeacher %}color: #FF6600{% else %}color: #0077bb{% endif %}">{% if question.user.userprofile.isTeacher %}Teacher{% else %}{% endif %}</span>
           </div>
-          <div class = "span10">
-            <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><b>{{ question.user }}</b></i></a> in <b> {{ question.subject }} </b>
+          <div class = "span11">
+            <div>
+            <span style = "font-size: 13px;"><a class = "hidden-link" href="{% url 'users:profile' question.user.id %}" style = "{% if question.user.userprofile.isTeacher %} color: #FF6600 {% endif %}"><i><b>{{ question.user }}</b></i></a> in {{ question.subject }}</span> &nbsp;&nbsp;<span class = "tiny-text {% if question.user.userprofile.isTeacher %}white-text{% else %}gray-text{% endif %}">{% if question.answer_set.all|length == 1 %} 1 Answer {% elif question.answer_set.all|length == 0 %} Answers needed! {% else %} {{question.answer_set.all|length}} Answers {% endif %}</span>
             <p class = "question-title linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">{{ question.question_text }}
             </p>
+            </div>
           </div>
         </div>
         <div class="collapse" id="{{question.id}}">
           <div class = "row-fluid">
             <div class = "span1"></div>
-            <div class = "span10"><p data-toggle="collapse" href="#{{question.id}}" class = "question-text" style = "margin: 5px">   {{ question.body|safe}} </p></div>
+            <div class = "span11"><p class = "question-text">   {{ question.body|safe}} </p></div>
           </div>
-          <div class="well" style = "margin:10px">
+          <div class="well" style = "{% if question.user.userprofile.isTeacher %}background-color: #eeeeee; {% endif %}margin:10px ">
             <ul id = "talk-{{question.id}}" class = "no-bullet">
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
               {% for answer in question.answer_set.all %}
@@ -55,8 +62,8 @@
                     <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
                   </div>
                   {% endif %}
-                  <div class = "span8" >
-                    <p>
+                  <div class = "span11" >
+                    <p class = "answer-text">
                       <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
                       </i></br>
                       {{ answer|safe }} 
@@ -75,10 +82,11 @@
           </div>
         </div>
       </div>
-      <hr/>
+    </div>
+      
     {% endfor %}
   {% else %}
     <p>No forums are available.</p>
   {% endif %}
-
+</div>
 {% endblock %}
