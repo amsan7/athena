@@ -12,7 +12,7 @@
 	    <span class = "text-center tiny-text" style = "{% if question.user.userprofile.isTeacher %}color: #FF6600{% else %}color: #0077bb{% endif %}">{% if question.user.userprofile.isTeacher %}Teacher{% else %}{% endif %}</span>
 	  </div>
 	  <div class = "span9">
-	    <span style = "font-size: 13px;"><a class = "hidden-link" href="{% url 'users:profile' question.user.id %}" style = "{% if question.user.userprofile.isTeacher %} color: #FF6600 {% endif %}"><i><b>{{ question.user }}</b></i></a> in {{ question.subject }}</span> &nbsp;&nbsp;<span class = "text-right tiny-text {% if question.user.userprofile.isTeacher %}white-text{% else %}gray-text{% endif %}">{% if question.answer_set.all|length == 1 %} 1 Answer {% elif question.answer_set.all|length == 0 %} Answers needed! {% else %} {{question.answer_set.all|length}} Answers {% endif %}</span>
+	    <span style = "font-size: 13px;"><a class = "hidden-link" href="{% url 'users:profile' question.user.id %}" style = "{% if question.user.userprofile.isTeacher %} color: #FF6600 {% endif %}"><i><b>{{ question.user }}</b></i></a> in {{ question.subject }}</span> &nbsp;&nbsp;<span class = "text-right tiny-text gray-text">{% if question.answer_set.all|length == 1 %} 1 Answer {% elif question.answer_set.all|length == 0 %} Answers needed! {% else %} {{question.answer_set.all|length}} Answers {% endif %}</span>
 	    <h3  style = "margin: 5px" >{{ question.question_text }}
 	    </h3>
 	    <p class = "question-text detail">   {{ question.body|safe}} </p>
@@ -20,10 +20,11 @@
 	</div>
 
 	<div class="well" style = "margin:10px">
-	  <ul id = "talk-{{question.id}}" class = "no-bullet">
 	  {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-	    {% for answer in question.answer_set.all %}
-	    <li>
+	  <h4 class = "text-center">Teacher Answers</h4><hr/>
+	  <ul id = "{% if user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
+	  {% for answer in question.teacher_answers %}
+	  	<li>
 	      <div class = "row-fluid">
 	        {% if user.is_authenticated %}
 	        <div class = "span1 text-center">
@@ -32,7 +33,7 @@
 	        {% endif %}
 	        <div class = "span11" >
 	          <p class = "answer-text">
-	            <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
+	            <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i style = "color: #FF6600" >{{ answer.user }}</i></a><i class = "answer-small"> Teacher
 	            </i></br>
 	            {{ answer|safe }} 
 	          </p>
@@ -40,6 +41,32 @@
 	      </div>
 	      <hr/>
 	    </li>
+	  {% endfor %}
+	  </ul>
+	  <h4 class = "text-center">Student Answers</h4><hr/>
+	  <ul id = "{% if not user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
+	  {% for answer in question.student_answers %}
+	  	<li>
+	      <div class = "row-fluid">
+	        {% if user.is_authenticated %}
+	        <div class = "span1 text-center">
+	          <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
+	        </div>
+	        {% endif %}
+	        <div class = "span11" >
+	          <p class = "answer-text">
+	            <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a><i class = "answer-small"> Student
+	            </i></br>
+	            {{ answer|safe }} 
+	          </p>
+	        </div>
+	      </div>
+	      <hr/>
+	    </li>
+	  {% endfor %}
+	  </ul>
+	    {% for answer in question.answers_by_vote %}
+	    
 	    {% endfor %}
 	  </ul>
 	  <div id = "results-{{question.id}}"></div>

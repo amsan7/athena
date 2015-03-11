@@ -25,6 +25,30 @@ class Question(models.Model):
 				   choices = SUBJECT_CHOICES,
 				   default=MATH)
 
+	def answers_by_vote(self):
+		return self.answer_set.order_by('-upvotes')
+
+	def teacher_answers(self):
+		users = User.objects.exclude(is_staff = "True")
+		teachers = []
+		for user in users:
+			if user.userprofile.isTeacher:
+				teachers.append(user)
+		#print teachers
+		
+		t_answers = self.answer_set.filter(user__in = teachers)
+		return t_answers.order_by('-upvotes')
+
+	def student_answers(self):
+		users = User.objects.exclude(is_staff = "True")
+		students = []
+		for user in users:
+			if not user.userprofile.isTeacher:
+				students.append(user)
+		#print teachers
+		
+		s_answers = self.answer_set.filter(user__in = students)
+		return s_answers.order_by('-upvotes')
 	
 	def __str__(self):
 		return self.question_text + str(self.pub_date)

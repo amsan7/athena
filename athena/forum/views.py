@@ -84,8 +84,10 @@ def answer(request, question_id = 0):
         response_data['answer_username'] = answer.user.username
         response_data['answer_user_id'] = answer.user.id
         response_data['is_teacher'] = "Student"
+        response_data['name_style'] = ""
         if answer.user.userprofile.isTeacher:
             response_data['is_teacher'] = "Teacher"
+            response_data['name_style'] = "color: #FF6600"
 
         return HttpResponse(
             dumps(response_data),

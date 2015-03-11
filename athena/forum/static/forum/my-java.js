@@ -17,7 +17,7 @@ function answer(question_id){
         console.log("success"); // another sanity check
         var talkstring = "#talk-" + question_id
         $(talkstring).append(
-          "<li><div class = \"row-fluid\"><div class = \"span1 text-center\"><span class=\"icon-arrow-up gray-glyph up-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span><br/><span id = \"talk-votes-" + json.answer_id + "\">" + json.votes + "</span><br/><span class=\"icon-arrow-down gray-glyph down-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span></div><div class = \"span8\"><p><a class = \"hidden-link\" href=\"/users/profile/\"><i>" + json.answer_username + "</i></a>   <i class = \"answer-small\">"+ json.is_teacher + "</i></br>" + json.answer_text + "</p></div></div><hr/></li>");
+          "<li><div class = \"row-fluid\"><div class = \"span1 text-center\"><span class=\"icon-arrow-up gray-glyph up-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span><br/><span id = \"talk-votes-" + json.answer_id + "\">" + json.votes + "</span><br/><span class=\"icon-arrow-down gray-glyph down-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span></div><div class = \"span8\"><p><a class = \"hidden-link\" href=\"/users/profile/\"><i style = \" " + json.name_style + " \">" + json.answer_username + "</i></a>   <i class = \"answer-small\">"+ json.is_teacher + "</i></br>" + json.answer_text + "</p></div></div><hr/></li>");
           console.log("success");
           $('.up-vote-temp').on('click', function(event){
               event.preventDefault();
