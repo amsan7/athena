@@ -53,8 +53,8 @@
           </div>
           <div class="well" style = "margin:10px ">
             {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
-
-            <h4 class = "text-center">Teacher Answers</h4><br/>
+            <h4 class = "text-center">Teacher Answers</h4>
+            <div>{% if question.num_teacher_answers == 0 %} No teacher answers yet! {% elif question.num_teacher_answers < 2 %} Top {{question.num_teacher_answers}} of {{question.num_teacher_answers}} teacher answers shown: {% else %} Top 2 of {{question.num_teacher_answers}} teacher answers shown... <a class = "hidden-link" href = "{% url 'forum:detail' question.id %}">see more</a> {% endif%}</div><br/>
             <ul id = "{% if user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
             {% for answer in question.top_teacher_answers %}
               <li>
@@ -76,7 +76,8 @@
               </li>
             {% endfor %}
             </ul>
-            <h4 class = "text-center">Student Answers</h4><br/>
+            <h4 class = "text-center">Student Answers</h4>
+            <div>{% if question.num_student_answers == 0 %} No student answers yet! {% elif question.num_student_answers < 5 %} Top {{question.num_student_answers}} of {{question.num_student_answers}} student answers shown: {% else %} Top 5 of {{question.num_student_answers}} student answers shown... <a class = "hidden-link" href = "{% url 'forum:detail' question.id %}">see more</a> {% endif%}</div><br/>
             <ul id = "{% if not user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
             {% for answer in question.top_student_answers %}
               <li>
@@ -98,7 +99,6 @@
               </li>
             {% endfor %}
             </ul>
-            <div class = "text-center" style = "margin-bottom:10px;"><a href = "{% url 'forum:detail' question.id %}">see more</a></div>
             <div id = "results-{{question.id}}"></div>
             <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
             {% csrf_token %}

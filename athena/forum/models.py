@@ -61,6 +61,12 @@ class Question(models.Model):
 			return answers[:5]
 		else:
 			return answers
+
+	def num_student_answers(self):
+		return len(self.student_answers())
+
+	def num_teacher_answers(self):
+		return len(self.teacher_answers())
 	
 	def __str__(self):
 		return self.question_text + str(self.pub_date)
