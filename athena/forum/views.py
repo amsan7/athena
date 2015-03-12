@@ -36,6 +36,7 @@ def upvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
         voter_id = request.POST.get('v_id')
+        print voter_id
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
         answer.upvote(voter_id)

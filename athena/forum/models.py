@@ -78,12 +78,41 @@ class Answer(models.Model):
 	upvotes = models.IntegerField(default=0)
 
 	def upvote(self, voter_id):
-		self.upvotes = self.upvotes + 1
+		user = User.objects.get(id = voter_id)
+		has_upvoted = user.userprofile.upvoted(self)
+		has_downvoted = user.userprofile.downvoted(self)
+		if not has_upvoted and not has_downvoted:
+			user.userprofile.upvote(self)
+			print "\n\nnot voted\n\n"
+			self.upvotes = self.upvotes + 1
+		elif not has_upvoted and has_downvoted:
+			user.userprofile.rm_downvote(self)
+			user.userprofile.upvote(self)
+			print "\n\ndown voted but not up\n\n"
+			self.upvotes = self.upvotes + 2
+		else:
+			print "\n\nalready up voted\n\n"
+
 		self.save()
 
 	def downvote(self, voter_id):
-		self.upvotes = self.upvotes - 1
+		user = User.objects.get(id = voter_id)
+		has_upvoted = user.userprofile.upvoted(self)
+		has_downvoted = user.userprofile.downvoted(self)
+		if not has_downvoted and not has_upvoted:
+			user.userprofile.downvote(self)
+			print "\n\nnot voted\n\n"
+			self.upvotes = self.upvotes - 1
+		elif not has_downvoted and has_upvoted:
+			user.userprofile.rm_upvote(self)
+			user.userprofile.downvote(self)
+			print "\n\up voted but not down\n\n"
+			self.upvotes = self.upvotes - 2
+		else:
+			print "\n\nalready down voted\n\n"
+
 		self.save()
+
 
 	def __str__(self):
 		return self.answer_text

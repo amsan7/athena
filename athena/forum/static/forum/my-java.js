@@ -24,7 +24,7 @@ function answer(question_id){
               console.log("up-vote clicked");  // sanity check
               var answer_id = $(this).attr('value');
               console.log(answer_id);
-              upvote(answer_id);
+              upvote(answer_id, json.answer_user_id);
           });
 
           $('.down-vote-temp').on('click', function(event){
@@ -32,7 +32,7 @@ function answer(question_id){
               console.log("down-vote clicked");  // sanity check
               var answer_id = $(this).attr('value');
               console.log(answer_id);
-              downvote(answer_id);
+              downvote(answer_id, json.answer_user_id);
           });
     },
 
