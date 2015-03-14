@@ -36,12 +36,14 @@ def upvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
         voter_id = request.POST.get('v_id')
-        print voter_id
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.upvote(voter_id)
+        color_arrow = answer.upvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
+        response_data['arrow_color'] = "gray-glyph"
+        if color_arrow:
+            response_data['arrow_color'] = "voted"
 
         return HttpResponse(
             dumps(response_data),
@@ -55,9 +57,12 @@ def downvote(request, question_id = 0):
         voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.downvote(voter_id)
+        color_arrow = answer.downvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
+        response_data['arrow_color'] = "gray-glyph"
+        if color_arrow:
+            response_data['arrow_color'] = "voted"
 
         return HttpResponse(
             dumps(response_data),

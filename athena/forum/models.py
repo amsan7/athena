@@ -81,6 +81,7 @@ class Answer(models.Model):
 		user = User.objects.get(id = voter_id)
 		has_upvoted = user.userprofile.upvoted(self)
 		has_downvoted = user.userprofile.downvoted(self)
+		color_arrow = True
 		if not has_upvoted and not has_downvoted:
 			user.userprofile.upvote(self)
 			print "\n\nnot voted\n\n"
@@ -91,14 +92,19 @@ class Answer(models.Model):
 			print "\n\ndown voted but not up\n\n"
 			self.upvotes = self.upvotes + 2
 		else:
+			user.userprofile.rm_upvote(self)
+			self.upvotes = self.upvotes - 1
+			color_arrow = False
 			print "\n\nalready up voted\n\n"
 
 		self.save()
+		return color_arrow
 
 	def downvote(self, voter_id):
 		user = User.objects.get(id = voter_id)
 		has_upvoted = user.userprofile.upvoted(self)
 		has_downvoted = user.userprofile.downvoted(self)
+		color_arrow = True
 		if not has_downvoted and not has_upvoted:
 			user.userprofile.downvote(self)
 			print "\n\nnot voted\n\n"
@@ -109,9 +115,13 @@ class Answer(models.Model):
 			print "\n\up voted but not down\n\n"
 			self.upvotes = self.upvotes - 2
 		else:
+			user.userprofile.rm_downvote(self)
+			self.upvotes = self.upvotes + 1
+			color_arrow = False
 			print "\n\nalready down voted\n\n"
 
 		self.save()
+		return color_arrow
 
 
 	def __str__(self):

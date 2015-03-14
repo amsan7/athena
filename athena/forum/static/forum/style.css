@@ -39,6 +39,10 @@ hr{
 	opacity: .8;
 }
 
+.voted{
+	opacity: .9;
+}
+
 .gray-head{
 	background-color: #e5e5e5;
 	color: #888888;
@@ -78,14 +82,14 @@ hr{
 
 .square-small {
 	width: 50px;
-    height: auto;
+    height: 50px;
     overflow: hidden;
     margin: 5px 5px 5px 0px;
 }
 
 .square-medium {
 	width: 100px;
-    height: auto;
+    height: 100px;
     overflow: hidden;
     margin: 5px 5px 5px 0px;
 }

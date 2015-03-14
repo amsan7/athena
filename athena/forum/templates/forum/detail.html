@@ -4,7 +4,7 @@
 <div class = "thumbnail" style = "background-color: white; padding: 0px;">
 	<div class = "row-fluid" style = "margin:15px;">
 	  <div class = "span2">
-	    <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><img class = "square-medium" src = "{{ question.user.userprofile.picture }}"></a>
+	    <div  class = "square-medium"><a class = " hidden-link" href="{% url 'users:profile' question.user.id %}"><img src = "{{ question.user.userprofile.picture }}"></a></div>
 	    
 	    <span class = "text-center tiny-text" style = "{% if question.user.userprofile.isTeacher %}color: #FF6600{% else %}color: #0077bb{% endif %}">{% if question.user.userprofile.isTeacher %}Teacher{% else %}{% endif %}</span>
 	  </div>
@@ -24,8 +24,8 @@
 	  	<li>
 	      <div class = "row-fluid">
 	        {% if user.is_authenticated %}
-	        <div class = "span1 text-center">
-	          <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
+	        <div id = "talk-votes-{{answer.id}}" class = "span1 text-center">
+	          <span class="icon-arrow-up {% if answer in user.userprofile.upvotedAnswers.all %} voted {% else %} gray-glyph {% endif %} up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span>{{answer.upvotes}}</span><br/><span class="icon-arrow-down {% if answer in user.userprofile.downvotedAnswers.all %} voted {% else %} gray-glyph {% endif %} down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
 	        </div>
 	        {% endif %}
 	        <div class = "span11" >
@@ -46,8 +46,8 @@
 	  	<li>
 	      <div class = "row-fluid">
 	        {% if user.is_authenticated %}
-	        <div class = "span1 text-center">
-	          <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
+	        <div id = "talk-votes-{{answer.id}}" class = "span1 text-center">
+	          <span class="icon-arrow-up {% if answer in user.userprofile.upvotedAnswers.all %} voted {% else %} gray-glyph {% endif %} up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span>{{answer.upvotes}}</span><br/><span class="icon-arrow-down {% if answer in user.userprofile.downvotedAnswers.all %} voted {% else %} gray-glyph {% endif %} down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
 	        </div>
 	        {% endif %}
 	        <div class = "span11" >
