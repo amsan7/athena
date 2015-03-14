@@ -20,6 +20,18 @@ def index(request):
 	}
     return render(request, 'forum/index.html', context)
 
+def filter_index(request):
+    subject_name = request.POST.get('subject')
+    print subject_name
+    latest_question_list = Question.objects.filter(subject=subject_name)
+    my_groups = Group.objects.all()
+    context = {
+    	'latest_question_list': latest_question_list, 
+	'my_groups' : my_groups,
+	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+	}
+    return render(request, 'forum/index.html', context)
+
 def detail(request, question_id):
 	try:
 		question = Question.objects.get(pk=question_id)
@@ -35,9 +47,11 @@ def results(request, question_id):
 def upvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
+        voter_id = request.POST.get('v_id')
+        print voter_id
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.upvote()
+        answer.upvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
 
@@ -50,9 +64,10 @@ def upvote(request, question_id = 0):
 def downvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
+        voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.downvote()
+        answer.downvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
 
@@ -66,6 +81,7 @@ def downvote(request, question_id = 0):
 def answer(request, question_id = 0):
     if request.method == 'POST':
         answer_text = request.POST.get('answer_text')
+        answer_text = answer_text.replace("\n", "<br/>")
         question_id = request.POST.get('q_id')
         original_question=Question.objects.get(pk=question_id)
         response_data = {}
@@ -81,8 +97,10 @@ def answer(request, question_id = 0):
         response_data['answer_username'] = answer.user.username
         response_data['answer_user_id'] = answer.user.id
         response_data['is_teacher'] = "Student"
+        response_data['name_style'] = ""
         if answer.user.userprofile.isTeacher:
             response_data['is_teacher'] = "Teacher"
+            response_data['name_style'] = "color: #FF6600"
 
         return HttpResponse(
             dumps(response_data),
@@ -117,7 +135,7 @@ def add_question(request):
 			question_text=request.POST['question'], 
 			body = request.POST['body'],
 			pub_date=timezone.now(),
-			user=request.user
+			user=request.user,
 			subject=request.POST['subject']
 			)
                # if request.user.is_authenticated():
@@ -127,5 +145,6 @@ def add_question(request):
                         'error_message': "Question must not be empty!",
                 })
         else:
+                q.body = q.body.replace("\n", "<br/>")
                 q.save()
                 return HttpResponseRedirect(reverse('forum:index'))
