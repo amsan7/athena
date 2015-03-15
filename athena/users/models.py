@@ -20,6 +20,37 @@ class UserProfile(models.Model):
     # upvotedAnswers = models.ManyToManyField(Answer, related_name='upvotedAnswers')
 
     # downvotedAnswers = models.ManyToManyField(Answer, related_name='downvotedAnswers')
+    def upvoted(self, answer):
+        all_upvoted = self.upvotedAnswers.all()
+        #print all_upvoted
+        if answer in all_upvoted:
+            return True
+        else:
+            return False
+
+    def upvote(self, answer):
+        self.upvotedAnswers.add(answer)
+        self.save()
+
+    def rm_upvote(self, answer):
+        self.upvotedAnswers.remove(answer)
+        self.save()
+
+    def downvoted(self, answer):
+        all_downvoted = self.downvotedAnswers.all()
+        #print all_downvoted
+        if answer in all_downvoted:
+            return True
+        else:
+            return False
+
+    def downvote(self, answer):
+        self.downvotedAnswers.add(answer)
+        self.save()
+
+    def rm_downvote(self, answer):
+        self.downvotedAnswers.remove(answer)
+        self.save()
 
     #TODO:
     # add fields for database

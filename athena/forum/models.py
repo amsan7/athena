@@ -25,6 +25,48 @@ class Question(models.Model):
 				   choices = SUBJECT_CHOICES,
 				   default=MATH)
 
+	def answers_by_vote(self):
+		return self.answer_set.order_by('-upvotes')
+
+	def teacher_answers(self):
+		users = User.objects.exclude(is_staff = "True")
+		teachers = []
+		for user in users:
+			if user.userprofile.isTeacher:
+				teachers.append(user)
+		
+		t_answers = self.answer_set.filter(user__in = teachers)
+		return t_answers.order_by('-upvotes')
+
+	def student_answers(self):
+		users = User.objects.exclude(is_staff = "True")
+		students = []
+		for user in users:
+			if not user.userprofile.isTeacher:
+				students.append(user)
+		
+		s_answers = self.answer_set.filter(user__in = students)
+		return s_answers.order_by('-upvotes')
+
+	def top_teacher_answers(self):
+		answers = self.teacher_answers()
+		if len(answers) > 2:
+			return answers[:2]
+		else:
+			return answers
+
+	def top_student_answers(self):
+		answers = self.student_answers()
+		if len(answers) > 5:
+			return answers[:5]
+		else:
+			return answers
+
+	def num_student_answers(self):
+		return len(self.student_answers())
+
+	def num_teacher_answers(self):
+		return len(self.teacher_answers())
 	
 	def __str__(self):
 		return self.question_text + str(self.pub_date)
@@ -36,12 +78,51 @@ class Answer(models.Model):
 	upvotes = models.IntegerField(default=0)
 
 	def upvote(self, voter_id):
-		self.upvotes = self.upvotes + 1
+		user = User.objects.get(id = voter_id)
+		has_upvoted = user.userprofile.upvoted(self)
+		has_downvoted = user.userprofile.downvoted(self)
+		color_arrow = True
+		if not has_upvoted and not has_downvoted:
+			user.userprofile.upvote(self)
+			print "\n\nnot voted\n\n"
+			self.upvotes = self.upvotes + 1
+		elif not has_upvoted and has_downvoted:
+			user.userprofile.rm_downvote(self)
+			user.userprofile.upvote(self)
+			print "\n\ndown voted but not up\n\n"
+			self.upvotes = self.upvotes + 2
+		else:
+			user.userprofile.rm_upvote(self)
+			self.upvotes = self.upvotes - 1
+			color_arrow = False
+			print "\n\nalready up voted\n\n"
+
 		self.save()
+		return color_arrow
 
 	def downvote(self, voter_id):
-		self.upvotes = self.upvotes - 1
+		user = User.objects.get(id = voter_id)
+		has_upvoted = user.userprofile.upvoted(self)
+		has_downvoted = user.userprofile.downvoted(self)
+		color_arrow = True
+		if not has_downvoted and not has_upvoted:
+			user.userprofile.downvote(self)
+			print "\n\nnot voted\n\n"
+			self.upvotes = self.upvotes - 1
+		elif not has_downvoted and has_upvoted:
+			user.userprofile.rm_upvote(self)
+			user.userprofile.downvote(self)
+			print "\n\up voted but not down\n\n"
+			self.upvotes = self.upvotes - 2
+		else:
+			user.userprofile.rm_downvote(self)
+			self.upvotes = self.upvotes + 1
+			color_arrow = False
+			print "\n\nalready down voted\n\n"
+
 		self.save()
+		return color_arrow
+
 
 	def __str__(self):
 		return self.answer_text

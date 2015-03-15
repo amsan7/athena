@@ -7,14 +7,15 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0002_auto_20150210_1731'),
+        ('users', '0002_auto_20150309_2035'),
+        ('groups', '0001_initial'),
     ]
 
     operations = [
-        migrations.AlterField(
-            model_name='userprofile',
-            name='picture',
-            field=models.CharField(default=b'Paste image URL here', max_length=5000),
+        migrations.AddField(
+            model_name='group',
+            name='group_members',
+            field=models.ManyToManyField(to='users.UserProfile'),
             preserve_default=True,
         ),
     ]

@@ -13,9 +13,23 @@ def index(request):
     latest_question_list = Question.objects.filter(group__isnull=True).order_by('-pub_date')
     my_groups = Group.objects.all()
     context = {
-        'latest_question_list': latest_question_list,
-        'my_groups' : my_groups,
-        'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+    	'latest_question_list': latest_question_list, 
+        'my_groups' : my_groups, 
+        'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES], 
+        'selected' : "All"
+	}
+    return render(request, 'forum/index.html', context)
+
+def filter_index(request):
+    subject_name = request.POST.get('subject')
+    if subject_name == "All": return HttpResponseRedirect(reverse('forum:index'))
+    latest_question_list = Question.objects.filter(subject=subject_name)
+    my_groups = Group.objects.all()
+    context = {
+    	'latest_question_list': latest_question_list, 
+	'my_groups' : my_groups,
+	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES], 
+    'selected': subject_name
 	}
     return render(request, 'forum/index.html', context)
 
@@ -37,9 +51,12 @@ def upvote(request, question_id = 0):
         voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.upvote(voter_id)
+        color_arrow = answer.upvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
+        response_data['arrow_color'] = "gray-glyph"
+        if color_arrow:
+            response_data['arrow_color'] = "voted"
 
         return HttpResponse(
             dumps(response_data),
@@ -53,9 +70,12 @@ def downvote(request, question_id = 0):
         voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.downvote(voter_id)
+        color_arrow = answer.downvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
+        response_data['arrow_color'] = "gray-glyph"
+        if color_arrow:
+            response_data['arrow_color'] = "voted"
 
         return HttpResponse(
             dumps(response_data),
@@ -68,7 +88,6 @@ def answer(request, question_id = 0):
     if request.method == 'POST':
         answer_text = request.POST.get('answer_text')
         answer_text = answer_text.replace("\n", "<br/>")
-        answer_text = answer_text.replace(" ", "&nbsp;")
         question_id = request.POST.get('q_id')
         original_question=Question.objects.get(pk=question_id)
         response_data = {}
@@ -84,8 +103,10 @@ def answer(request, question_id = 0):
         response_data['answer_username'] = answer.user.username
         response_data['answer_user_id'] = answer.user.id
         response_data['is_teacher'] = "Student"
+        response_data['name_style'] = ""
         if answer.user.userprofile.isTeacher:
             response_data['is_teacher'] = "Teacher"
+            response_data['name_style'] = "color: #FF6600"
 
         return HttpResponse(
             dumps(response_data),
@@ -135,6 +156,3 @@ def add_question(request):
         if group_id:
             return HttpResponseRedirect(reverse('groups:detail', args=(group_id)))
         return HttpResponseRedirect(reverse('forum:index'))
-
-
-

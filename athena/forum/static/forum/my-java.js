@@ -17,14 +17,14 @@ function answer(question_id){
         console.log("success"); // another sanity check
         var talkstring = "#talk-" + question_id
         $(talkstring).append(
-          "<li><div class = \"row-fluid\"><div class = \"span1 text-center\"><span class=\"icon-arrow-up gray-glyph up-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span><br/><span id = \"talk-votes-" + json.answer_id + "\">" + json.votes + "</span><br/><span class=\"icon-arrow-down gray-glyph down-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span></div><div class = \"span8\"><p><a class = \"hidden-link\" href=\"/users/profile/\"><i>" + json.answer_username + "</i></a>   <i class = \"answer-small\">"+ json.is_teacher + "</i></br>" + json.answer_text + "</p></div></div><hr/></li>");
+          "<li><div class = \"row-fluid\"><div id = \"talk-votes-" + json.answer_id + "\" class = \"span1 text-center\"><span class=\"icon-arrow-up gray-glyph up-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span><br/><span >" + json.votes + "</span><br/><span class=\"icon-arrow-down gray-glyph down-vote-temp\" value = \""+ json.answer_id + "\" aria-hidden=\"true\"></span></div><div class = \"span8\"><p><a class = \"hidden-link\" href=\"/users/profile/\"><i style = \" " + json.name_style + " \">" + json.answer_username + "</i></a>   <i class = \"answer-small\">"+ json.is_teacher + "</i></br>" + json.answer_text + "</p></div></div><hr/></li>");
           console.log("success");
           $('.up-vote-temp').on('click', function(event){
               event.preventDefault();
               console.log("up-vote clicked");  // sanity check
               var answer_id = $(this).attr('value');
               console.log(answer_id);
-              upvote(answer_id);
+              upvote(answer_id, json.answer_user_id);
           });
 
           $('.down-vote-temp').on('click', function(event){
@@ -32,7 +32,7 @@ function answer(question_id){
               console.log("down-vote clicked");  // sanity check
               var answer_id = $(this).attr('value');
               console.log(answer_id);
-              downvote(answer_id);
+              downvote(answer_id, json.answer_user_id);
           });
     },
 
@@ -63,8 +63,24 @@ function upvote(answer_id, voter_id){
         console.log(json); // log the returned json to the console
         console.log("success"); // another sanity check
         var talkstring = "#talk-votes-" + answer_id;
-        $(talkstring).html(json.upvotes)
+        $(talkstring).html("<span class=\"icon-arrow-up " + json.arrow_color + " up-vote-temp\" value = \"" + answer_id +"\" aria-hidden=\"true\"></span><br/><span>"+ json.upvotes +"</span><br/><span class=\"icon-arrow-down gray-glyph down-vote-temp\" value = \""+ answer_id + "\" aria-hidden=\"true\"></span>" )
           console.log("success");
+
+        $('.up-vote-temp').on('click', function(event){
+            event.preventDefault();
+            console.log("up-vote clicked temp");  // sanity check
+            var answer_id = $(this).attr('value');
+            console.log(answer_id);
+            upvote(answer_id, voter_id);
+        });
+
+        $('.down-vote-temp').on('click', function(event){
+            event.preventDefault();
+            console.log("down-vote clicked temp");  // sanity check
+            var answer_id = $(this).attr('value');
+            console.log(answer_id);
+            downvote(answer_id, voter_id);
+        });
     },
 
     // handle a non-successful response
@@ -91,8 +107,24 @@ function downvote(answer_id, voter_id){
         console.log(json); // log the returned json to the console
         console.log("success"); // another sanity check
         var talkstring = "#talk-votes-" + answer_id;
-        $(talkstring).html(json.upvotes)
+        $(talkstring).html("<span class=\"icon-arrow-up gray-glyph up-vote-temp\" value = \"" + answer_id +"\" aria-hidden=\"true\"></span><br/><span>"+ json.upvotes +"</span><br/><span class=\"icon-arrow-down " + json.arrow_color + " down-vote-temp\" value = \""+ answer_id + "\" aria-hidden=\"true\"></span>" )
           console.log("success");
+
+        $('.up-vote-temp').on('click', function(event){
+            event.preventDefault();
+            console.log("up-vote clicked temp");  // sanity check
+            var answer_id = $(this).attr('value');
+            console.log(answer_id);
+            upvote(answer_id, voter_id);
+        });
+
+        $('.down-vote-temp').on('click', function(event){
+            event.preventDefault();
+            console.log("down-vote clicked temp");  // sanity check
+            var answer_id = $(this).attr('value');
+            console.log(answer_id);
+            downvote(answer_id, voter_id);
+        });
     },
 
     // handle a non-successful response
