@@ -7,11 +7,102 @@
 <h1 align="center">{{ group.group_name }}</h1>
 <p align="center">{{ group.topic }}</p>
 <h4> Group Members: </h4>
-<p align="center">{{ group.group_members }}</p>
-<form style = "margin-bottom: 0px; margin-top: 5px" action="{% url 'forum:add_question' %}" method="POST">
-      {% csrf_token %}
-      <input class="inputField" type='text' placeholder="Ask a question!" name='question'/>
-    </form>
+{% if group.group_members %}
+	<ul>
+	{% for member in group.group_members.all %}
+		<li><a href = "{% url 'users:profile' %}">{{ member.user.username }}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>no group members</p>
+{% endif %}
+
+  <div class = "text-center thumbnail blue-head link question-button">
+    <h3 style = "margin-top: 15px; margin-bottom: 15px;" data-toggle="collapse" href="#question-form" aria-expanded="false" aria-controls="question-form">Ask a Question
+    </h3>
+    <div id = "question-form" class = "collapse">
+      <form style = "margin-bottom: 0px; margin-top: 5px; text-align: left;" action="{% url 'forum:add_question' %}" method="POST">
+        <div class = "form-group" style = "padding: 15px;">
+          {% csrf_token %}
+           <input type='hidden' name='group_id' value={{group.id}}></input> 
+          <input type='text' style = "min-width: 290px; width: 75%;" placeholder="Enter a one line summary of your question..." name='question'></input> <br/>
+          <textarea rows="7" style = "width: 97%" placeholder="Your question in more detail here!" name="body"></textarea> <br/>
+          <select name="subject">
+            <option value="" disabled selected>Select a Subject!</option>
+          {% for subject in subject_choices %}
+    	       <option value={{ subject }}> {{ subject }}</option>
+          {% endfor %}
+          </select>
+          <br/>
+          <input class = "btn" type="submit" value="Ask!" style = "margin-top:10px;">
+        </div>
+      </form>
+    </div>
+  </div>
+
+ {% if latest_question_list %}
+    {% for question in latest_question_list %}
+      <div class = "question">
+        <div class = "row-fluid">
+          <div class = "span1">
+            {% if user.is_authenticated %}
+              <img class = "small-square" height = "50" width = "50" src = "{{ question.user.userprofile.picture }}">
+            {% else %}
+              <img class = "small-square" height = "50" width = "50" src = "{{STATIC_URL}}forum/flag.png">
+            {% endif %}
+          </div>
+          <div class = "span10">
+            <a class = "hidden-link" href="{% url 'users:profile' question.user.id %}"><i><b>{{ question.user }}</b></i></a> in <b> {{ question.subject }} </b>
+            <p class = "question-title linked" style = "margin: 5px" data-toggle="collapse" href="#{{question.id}}" aria-expanded="false" aria-controls="{{question.id}}">{{ question.question_text }}
+            </p>
+          </div>
+        </div>
+        <div class="collapse" id="{{question.id}}">
+          <div class = "row-fluid">
+            <div class = "span1"></div>
+            <div class = "span10"><p data-toggle="collapse" href="#{{question.id}}" class = "question-text" style = "margin: 5px">   {{ question.body|safe}} </p></div>
+          </div>
+          <div class="well" style = "margin:10px">
+            <ul id = "talk-{{question.id}}" class = "no-bullet">
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+              {% for answer in question.answer_set.all %}
+              <li>
+                <div class = "row-fluid">
+                  {% if user.is_authenticated %}
+                  <div class = "span1 text-center">
+                    <span class="icon-arrow-up gray-glyph up-vote" value = "{{answer.id}}" aria-hidden="true"></span><br/><span id = "talk-votes-{{answer.id}}">{{answer.upvotes}}</span><br/><span class="icon-arrow-down gray-glyph down-vote" value = "{{answer.id}}" aria-hidden="true"></span>
+                  </div>
+                  {% endif %}
+                  <div class = "span8" >
+                    <p>
+                      <a class = "hidden-link" href="{% url 'users:profile' answer.user.id %}"><i>{{ answer.user }}</i></a>   <i class = "answer-small"> {% if answer.user.userprofile.isTeacher %} Teacher {% else %} Student {% endif %}
+                      </i></br>
+                      {{ answer|safe }} 
+                    </p>
+                  </div>
+                </div>
+                <hr/>
+              </li>
+              {% endfor %}
+            </ul>
+            <div id = "results-{{question.id}}"></div>
+            <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
+            {% csrf_token %}
+              <textarea id = "answer-{{question.id}}" name='answer' rows="5" style = "width: 90%" placeholder="Answer!" name="body"></textarea><input class = "btn" type="submit" value="Submit" ></input>
+            </form>
+          </div>
+        </div>
+      </div>
+      <hr/>
+    {% endfor %}
+  {% else %}
+    <p>No forums are available.</p>
+  {% endif %}
+
+
+
+
+
 {% else %}
 <p>no group :(</p>
 {% endif %}

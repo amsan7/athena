@@ -16,17 +16,9 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('group_name', models.CharField(max_length=5000)),
                 ('create_date', models.DateTimeField(verbose_name=b'date created')),
+                ('creator_username', models.CharField(max_length=5000)),
                 ('topic', models.CharField(max_length=500)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='GroupUserLink',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('group', models.ForeignKey(to='groups.Group')),
+                ('type', models.CharField(default=b'Open', max_length=15, choices=[(b'Open', b'Open'), (b'Closed', b'Closed'), (b'Secret', b'Secret')])),
             ],
             options={
             },

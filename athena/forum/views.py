@@ -9,14 +9,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from json import dumps, loads
 
-
 def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')
+    latest_question_list = Question.objects.filter(group__isnull=True).order_by('-pub_date')
     my_groups = Group.objects.all()
     context = {
-    	'latest_question_list': latest_question_list, 
-	'my_groups' : my_groups,
-	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+        'latest_question_list': latest_question_list,
+        'my_groups' : my_groups,
+        'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
 	}
     return render(request, 'forum/index.html', context)
 
@@ -116,22 +115,26 @@ def answer(request, question_id = 0):
 
 @login_required(redirect_field_name='banana')
 def add_question(request):
-        try:
-                q = Question(
-			question_text=request.POST['question'], 
+    group_id = request.POST.get('group_id', False);
+    try:
+        q = Question(
+            question_text=request.POST['question'], 
 			body = request.POST['body'],
 			pub_date=timezone.now(),
 			user=request.user,
 			subject=request.POST['subject']
-			)
-               # if request.user.is_authenticated():
-               #     user.questions.add(q)
-        except(KeyError, Question.DoesNotExist):
-                return render(request, 'forum/index', {
-                        'error_message': "Question must not be empty!",
-                })
-        else:
-                q.body = q.body.replace("\n", "<br/>")
-                q.body = q.body.replace(" ", "&nbsp;")
-                q.save()
-                return HttpResponseRedirect(reverse('forum:index'))
+            )
+        if group_id:
+            q.group = Group.objects.get(pk=group_id)
+    except(KeyError, Question.DoesNotExist):
+        return render(request, 'forum/index', {'error_message': "Question must not be empty!"})
+    else:
+        q.body = q.body.replace("\n", "<br/>")
+        q.body = q.body.replace(" ", "&nbsp;")
+        q.save()
+        if group_id:
+            return HttpResponseRedirect(reverse('groups:detail', args=(group_id)))
+        return HttpResponseRedirect(reverse('forum:index'))
+
+
+

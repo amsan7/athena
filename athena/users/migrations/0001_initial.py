@@ -8,9 +8,9 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('forum', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('forum', '0008_auto_20150209_1858'),
-        ('groups', '0002_auto_20150128_2321'),
+        ('groups', '0001_initial'),
     ]
 
     operations = [
@@ -18,11 +18,14 @@ class Migration(migrations.Migration):
             name='UserProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('picture', models.ImageField(upload_to=b'profile_images', blank=True)),
-                ('school', models.CharField(max_length=500)),
-                ('answers', models.ManyToManyField(to='forum.Answer')),
+                ('picture', models.CharField(default=b'Paste image URL here', max_length=5000)),
+                ('school', models.CharField(default=b'school', max_length=500)),
+                ('isTeacher', models.BooleanField(default=False)),
+                ('firstName', models.CharField(default=b'first name', max_length=500)),
+                ('lastName', models.CharField(default=b'last name', max_length=500)),
+                ('downvotedAnswers', models.ManyToManyField(related_name='downvotedAnswers', to='forum.Answer')),
                 ('groups', models.ManyToManyField(to='groups.Group')),
-                ('questions', models.ManyToManyField(to='forum.Question')),
+                ('upvotedAnswers', models.ManyToManyField(related_name='upvotedAnswers', to='forum.Answer')),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
             options={

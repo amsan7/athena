@@ -10,14 +10,15 @@
 		{% for type in group_choices %}
 		<input type="radio" name="type" value={{ type }}> {{ type }}
       	{% endfor %}
+      	<br /><br />
 		{% if all_users %}
 			{% for user in all_users %}
-				<input type="checkbox" name="members" id="option{{user.id}}" value={{ user.id }} />
-				<label for="option{{user.id}}">{{user.username}}</label><br />
+			<input type="checkbox" name="members" id="option{{user.id}}" value={{ user.id }}> {{user.username}}</input>
 			{% endfor %}
 		{% else %}
 			<p>no users</p>
 		{% endif %}
+		<br /><br />
 	</div>
 		<input type="submit" value="Make Group" />
 </form>

@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from groups.models import Group
-from forum.models import Answer
+# from forum.models import Answer
 
 class UserProfile(models.Model):
 	# This line is required. Links UserProfile to a User model instance.
@@ -18,12 +17,9 @@ class UserProfile(models.Model):
 
     lastName = models.CharField(max_length=500, default='last name')
 
-    upvotedAnswers = models.ManyToManyField(Answer, related_name='upvotedAnswers')
+    # upvotedAnswers = models.ManyToManyField(Answer, related_name='upvotedAnswers')
 
-    downvotedAnswers = models.ManyToManyField(Answer, related_name='downvotedAnswers')
-
-    groups = models.ManyToManyField(Group)
-
+    # downvotedAnswers = models.ManyToManyField(Answer, related_name='downvotedAnswers')
 
     #TODO:
     # add fields for database

@@ -3,6 +3,7 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from groups.models import Group
+from forum.models import Question, Answer
 from users.models import UserProfile
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -20,7 +21,12 @@ def detail(request, group_id):
         group = Group.objects.get(pk=group_id)
     except Group.DoesNotExist:
         raise Http404("Group no exist :(")
-    return render(request, 'groups/detail.html', {'group':group})
+    context = {
+        'group' : group,
+        'latest_question_list' : Question.objects.filter(group=group).order_by('-pub_date'),
+        'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+    }
+    return render(request, 'groups/detail.html', context)
 
 def new(request):
     all_users = User.objects.all()
