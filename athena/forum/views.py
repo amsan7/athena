@@ -16,19 +16,21 @@ def index(request):
     context = {
     	'latest_question_list': latest_question_list, 
 	'my_groups' : my_groups,
-	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES], 
+    'selected' : "All"
 	}
     return render(request, 'forum/index.html', context)
 
 def filter_index(request):
     subject_name = request.POST.get('subject')
-    if subject_name == "ALL": return HttpResponseRedirect(reverse('forum:index'))
+    if subject_name == "All": return HttpResponseRedirect(reverse('forum:index'))
     latest_question_list = Question.objects.filter(subject=subject_name)
     my_groups = Group.objects.all()
     context = {
     	'latest_question_list': latest_question_list, 
 	'my_groups' : my_groups,
-	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES], 
+    'selected': subject_name
 	}
     return render(request, 'forum/index.html', context)
 

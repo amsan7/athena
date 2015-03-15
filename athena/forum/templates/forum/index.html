@@ -1,7 +1,7 @@
 {% extends "forum_base.html" %}
 
 {% block forum %}
-<div class = "thumbnail" style = "background-color: white; padding: 0px;">
+
   <div class = "text-center thumbnail blue-head link question-button">
     <h3 style = "margin-top: 15px; margin-bottom: 0px;">Ask a Question!
     </h3>
@@ -26,19 +26,24 @@
   </div>
 
 
-  <div> 
-     <form action="{% url 'forum:filter_index' %}" method="POST">
-	{% csrf_token %}
-	<input type="radio" name="subject" value="ALL"> All 
-	<br/>
-	{% for subject in subject_choices %}
-    	       <input type="radio" name="subject" value={{ subject }}> {{ subject }}
-	       <br/>
-        {% endfor %}
-	<input type="submit" value="Submit">
-     </form> 
-  </div>
+  
 
+
+<div class = "thumbnail" style = "background-color: white; padding: 0px; margin-top: 10px;">
+  <div class = "text-center thumbnail blue-head link question-button">
+    
+  
+
+  <div class = "text-center" style = "padding-bottom: 10px; padding-top: 10px"> 
+    <form style = "margin: 0px" action="{% url 'forum:filter_index' %}" method="POST">
+      {% csrf_token %}
+      <button style = "margin: 2.5px;" class = "btn {% if selected == "All" %}active{%endif%}" type="submit" name="subject" value="All"> All 
+      {% for subject in subject_choices %}
+        <button style = "margin-left: 2.5px; margin-right:2.5px;"  class = "btn {% if selected == subject %}active{%endif%}" type="submit" name="subject" value={{ subject }}>{{subject}}
+      {% endfor %}
+    </form>
+  </div>
+  </div>
 
   {% if latest_question_list %}
     {% for question in latest_question_list %}
