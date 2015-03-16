@@ -54,7 +54,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'athena.urls'
 
-LOGIN_URL = '/login/'
+LOGIN_URL = '/'
 
 WSGI_APPLICATION = 'athena.wsgi.application'
 
