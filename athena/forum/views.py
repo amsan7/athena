@@ -83,7 +83,7 @@ def downvote(request, question_id = 0):
             content_type = "application/json"
         )
 
-@login_required
+#@login_required
 @csrf_exempt
 def answer(request, question_id = 0):
     if request.method == 'POST':
@@ -135,7 +135,7 @@ def answer(request, question_id = 0):
 #                #note: always return redirect after dealing with POST data
 #                return HttpResponseRedirect(reverse('forum:index'))
 
-@login_required(redirect_field_name='banana')
+@login_required
 def add_question(request):
         try:
                 q = Question(

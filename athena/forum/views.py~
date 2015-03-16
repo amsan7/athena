@@ -16,19 +16,21 @@ def index(request):
     context = {
     	'latest_question_list': latest_question_list, 
 	'my_groups' : my_groups,
-	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES], 
+    'selected' : "All"
 	}
     return render(request, 'forum/index.html', context)
 
 def filter_index(request):
     subject_name = request.POST.get('subject')
-    print subject_name
+    if subject_name == "All": return HttpResponseRedirect(reverse('forum:index'))
     latest_question_list = Question.objects.filter(subject=subject_name)
     my_groups = Group.objects.all()
     context = {
     	'latest_question_list': latest_question_list, 
 	'my_groups' : my_groups,
-	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES]
+	'subject_choices' : [subject[0] for subject in Question.SUBJECT_CHOICES], 
+    'selected': subject_name
 	}
     return render(request, 'forum/index.html', context)
 
@@ -48,12 +50,14 @@ def upvote(request, question_id = 0):
     if request.method == 'POST':
         answer_id = request.POST.get('a_id')
         voter_id = request.POST.get('v_id')
-        print voter_id
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.upvote(voter_id)
+        color_arrow = answer.upvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
+        response_data['arrow_color'] = "gray-glyph"
+        if color_arrow:
+            response_data['arrow_color'] = "voted"
 
         return HttpResponse(
             dumps(response_data),
@@ -67,9 +71,12 @@ def downvote(request, question_id = 0):
         voter_id = request.POST.get('v_id')
         answer=Answer.objects.get(pk=answer_id)
         response_data = {}
-        answer.downvote(voter_id)
+        color_arrow = answer.downvote(voter_id)
         response_data['answerpk'] = answer.pk
         response_data['upvotes'] = answer.upvotes
+        response_data['arrow_color'] = "gray-glyph"
+        if color_arrow:
+            response_data['arrow_color'] = "voted"
 
         return HttpResponse(
             dumps(response_data),
@@ -128,7 +135,7 @@ def answer(request, question_id = 0):
 #                #note: always return redirect after dealing with POST data
 #                return HttpResponseRedirect(reverse('forum:index'))
 
-@login_required(redirect_field_name='banana')
+@login_required
 def add_question(request):
         try:
                 q = Question(
