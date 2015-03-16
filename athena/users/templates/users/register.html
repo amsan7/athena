@@ -5,7 +5,7 @@
     <strong>Thank you for signing up!</strong>
     <a href="/forum/">Return to homepage.</a><br />
     {% else %}
-    Already have a profile? <a style = "color: #0088cc" href = "login"> login </a>
+    Already have a profile? <a style = "color: #0088cc" href="{% url 'users:login' %}"> login </a>
     <form id="user_form" method="post" action="/users/register/"
             enctype="multipart/form-data">
 

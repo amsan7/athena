@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block content %}
-	Don't have a profile? <a style = "color: #0088cc" href = "/users"> Sign Up </a>
+	Don't have a profile? <a style = "color: #0088cc" href="{% url 'users:register' %}"> Sign Up </a>
     <form id="login_form" method="post" action="/users/login/">
         {% csrf_token %}
         Username: <input type="text" name="username" value="" size="50" />
