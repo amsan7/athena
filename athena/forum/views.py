@@ -83,7 +83,7 @@ def downvote(request, question_id = 0):
             content_type = "application/json"
         )
 
-@login_required
+#@login_required
 @csrf_exempt
 def answer(request, question_id = 0):
     if request.method == 'POST':

@@ -135,7 +135,7 @@ def answer(request, question_id = 0):
 #                #note: always return redirect after dealing with POST data
 #                return HttpResponseRedirect(reverse('forum:index'))
 
-@login_required(redirect_field_name='banana')
+@login_required
 def add_question(request):
         try:
                 q = Question(
