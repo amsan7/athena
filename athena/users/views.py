@@ -115,12 +115,12 @@ def edit_user_profile(request, user_id=0):
         profile = user.userprofile
 
         if request.method == 'POST':
-            form = EditProfileForm(data=request.POST, instance=request.user)
+            form = EditProfileForm(data=request.POST, instance=request.user, profile=profile)
             if form.is_valid():
                 form.save()
                 return HttpResponseRedirect('/users/profile')
         else:
-            form = EditProfileForm()
+            form = EditProfileForm(profile=profile)
 
         return render(request, 'users/edit_profile.html', {'form': form})
 
