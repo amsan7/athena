@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^groups/', include('groups.urls', namespace="groups")),
     url(r'^users/', include('users.urls', namespace="users")),
+    #url(r'^login/', include('users.urls', namespace="login")),
     url(r'^$', include('users.urls', namespace="users")),
 )

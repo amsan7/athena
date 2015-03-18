@@ -1,8 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-# from forum.models import Answer
+from forum.models import Answer
+from forum.models import Group
 
 class UserProfile(models.Model):
+    #delete me
+    groups = models.ManyToManyField(Group)
+
 	# This line is required. Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
 
@@ -17,9 +21,9 @@ class UserProfile(models.Model):
 
     lastName = models.CharField(max_length=500, default='last name')
 
-    # upvotedAnswers = models.ManyToManyField(Answer, related_name='upvotedAnswers')
+    upvotedAnswers = models.ManyToManyField(Answer, related_name='upvotedAnswers')
 
-    # downvotedAnswers = models.ManyToManyField(Answer, related_name='downvotedAnswers')
+    downvotedAnswers = models.ManyToManyField(Answer, related_name='downvotedAnswers')
     def upvoted(self, answer):
         all_upvoted = self.upvotedAnswers.all()
         #print all_upvoted
