@@ -14,7 +14,7 @@
   {% if group_members %}
   	<dl>
   	{% for member in group_members %}
-  		<dd><a href = "{% url 'users:profile' %}">{{ member.user.username }}</a></dd>
+  		<dd><a href = "{% url 'users:profile' member.id %}">{{ member.user.username }}</a></dd>
   	{% endfor %}
   	</dl>
   {% else %}
