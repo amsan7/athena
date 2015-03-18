@@ -52,21 +52,18 @@
 
         <!-- groups -->
         <div class = "thumbnail" style = "margin-bottom:10px; background-color: white; padding: 0px;">
-          <a class = "hidden-link" href = "/groups/"><h4 style = "margin-top:0;" class = "thumbnail blue-head link text-center"> Your Groups </h4></a>
+          <a class = "hidden-link" href = "/groups/"><h4 style = "margin-top:0;" class = "thumbnail blue-head link text-center"> {% if profile.user.id == null or self == 0%}Your {% else %}{{user.userprofile.firstName}}'s {%endif%}Groups </h4></a>
           <div style = "padding: 10px;">
             {% if user.is_authenticated %}
            <!-- stuff about populating groups -->
-              {% if my_groups %}
               <ul>
-                {% for group in my_groups %}
+                {% for group in user.userprofile.groups.all %}
                 <li>
                   <a href="{% url 'groups:detail' group.id %}">{{ group.group_name }}</a>
                 </li>
                 {% endfor %}
               </ul>
-              {% else %}
-              <p>no groups</p>
-              {% endif %}
+              
 
               <a class="btn" href = "/groups/new"><span class=" icon-plus" aria-hidden="true"></span> Create Group
               </a>

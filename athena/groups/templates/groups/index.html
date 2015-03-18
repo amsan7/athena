@@ -8,18 +8,14 @@
   <div style = "padding: 10px;">
     {% if user.is_authenticated %}
    <!-- stuff about populating groups -->
-      {% if my_groups %}
+
       <ul>
-        {% for group in my_groups %}
+        {% for group in user.userprofile.groups.all %}
         <li>
           <a href="{% url 'groups:detail' group.id %}">{{ group.group_name }}</a>
         </li>
         {% endfor %}
       </ul>
-      {% else %}
-      <p>no groups</p>
-      {% endif %}
-
       
     {% else %}
       <p class = "text-center"> Sign in to see your groups </p>
