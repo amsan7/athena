@@ -23,7 +23,7 @@ def index(request):
 def filter_index(request):
     subject_name = request.POST.get('subject')
     if subject_name == "All": return HttpResponseRedirect(reverse('forum:index'))
-    latest_question_list = Question.objects.filter(subject=subject_name)
+    latest_question_list = Question.objects.filter(group__isnull=True).filter(subject=subject_name).order_by('-pub_date')
     my_groups = Group.objects.all()
     context = {
     	'latest_question_list': latest_question_list, 

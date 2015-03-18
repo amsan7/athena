@@ -1,6 +1,6 @@
 {% extends "forum_base.html" %}
 
-{% block content %}
+{% block forum %}
 
 
 <div class = "thumbnail" style = "margin-bottom:10px; background-color: white; padding: 0px;">
@@ -20,8 +20,7 @@
       <p>no groups</p>
       {% endif %}
 
-      <a class="btn" href = "/groups/new"><span class=" icon-plus" aria-hidden="true"></span> Create Group
-      </a>
+      
     {% else %}
       <p class = "text-center"> Sign in to see your groups </p>
     {% endif %}
