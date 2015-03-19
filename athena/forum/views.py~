@@ -47,7 +47,6 @@ def results(request, question_id):
 	response = "You're looking at the results of question %s."
 	return HttpResponse(respone % question_id)
 
-#all csrf_exempt tags used for functions called by client side AJAX
 @csrf_exempt
 def upvote(request, question_id = 0):
     #take voter, answer, and call vote method in model
