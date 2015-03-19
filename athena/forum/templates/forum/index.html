@@ -2,6 +2,7 @@
 
 {% block forum %}
 
+<!-- question form! -->
   <div class = "text-center thumbnail blue-head link question-button">
     <h3 style = "margin-top: 15px; margin-bottom: 0px;">Ask a Question!
     </h3>
@@ -32,8 +33,7 @@
 <div class = "thumbnail" style = "background-color: white; padding: 0px; margin-top: 10px;">
   <div class = "text-center thumbnail blue-head link question-button">
     
-  
-
+    <!-- subject tags  -->
   <div class = "text-center" style = "padding-bottom: 10px; padding-top: 10px"> 
     <form style = "margin: 0px" action="{% url 'forum:filter_index' %}" method="POST">
       {% csrf_token %}
@@ -45,6 +45,7 @@
   </div>
   </div>
 
+  <!-- list of questions -->
   {% if latest_question_list %}
     {% for question in latest_question_list %}
       <div style = "border-bottom: solid #dddddd 1px; margin : 0px; padding-top: 5px;">
@@ -62,6 +63,7 @@
             </div>
           </div>
         </div>
+        <!-- answers collapse -->
         <div class="collapse" id="{{question.id}}">
           <div class = "row-fluid">
             <div class = "span1"></div>
@@ -72,6 +74,7 @@
             <h4 class = "text-center">Teacher Answers</h4>
             <div>{% if question.num_teacher_answers == 0 %} No teacher answers yet! {% elif question.num_teacher_answers < 3 %} Top {{question.num_teacher_answers}} of {{question.num_teacher_answers}} teacher answers shown: {% else %} Top 2 of {{question.num_teacher_answers}} teacher answers shown... <a class = "hidden-link" href = "{% url 'forum:detail' question.id %}">see more</a> {% endif%}</div><br/>
             <ul id = "{% if user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
+              <!-- teacher ansers -->
             {% for answer in question.top_teacher_answers %}
               <li>
                 <div class = "row-fluid">
@@ -92,6 +95,7 @@
               </li>
             {% endfor %}
             </ul>
+            <!-- student answers -->
             <h4 class = "text-center">Student Answers</h4>
             <div>{% if question.num_student_answers == 0 %} No student answers yet! {% elif question.num_student_answers < 6 %} Top {{question.num_student_answers}} of {{question.num_student_answers}} student answers shown: {% else %} Top 5 of {{question.num_student_answers}} student answers shown... <a class = "hidden-link" href = "{% url 'forum:detail' question.id %}">see more</a> {% endif%}</div><br/>
             <ul id = "{% if not user.userprofile.isTeacher %}talk-{{question.id}}{% endif %}" class = "no-bullet">
@@ -115,6 +119,7 @@
               </li>
             {% endfor %}
             </ul>
+            <!-- answer form  -->
             <div id = "results-{{question.id}}"></div>
             <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
             {% csrf_token %}

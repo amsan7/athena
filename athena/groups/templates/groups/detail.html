@@ -116,11 +116,7 @@
               </li>
             {% endfor %}
             </ul>
-            <div id = "results-{{question.id}}"></div>
-            <form class = "answer-form" style = "margin-bottom: 0px" action="{% url 'forum:answer'%}" method="post" value = "{{question.id}}">
-            {% csrf_token %}
-              <textarea id = "answer-{{question.id}}" name='answer' rows="5" style = "width: 90%" placeholder="Answer!" name="body"></textarea><input class = "btn btn-primary" type="submit" value="Submit" ></input>
-            </form>
+            Go to detail to <a href="{% url 'forum:detail' question.id %}">answer</a>!
           </div>
         </div>
       </div>

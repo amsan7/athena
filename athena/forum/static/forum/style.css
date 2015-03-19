@@ -78,11 +78,13 @@ hr{
     height: 85px;
     overflow: hidden;
     margin: 5px;
+    border-radius: 2px;
 }
 
 .square-crop.crop-lg{
 	width: 120px;
 	height: 120px;
+	border-radius: 4px;
 }
 
 .square-small {
@@ -90,6 +92,7 @@ hr{
     height: 50px;
     overflow: hidden;
     margin: 5px 5px 5px 0px;
+    border-radius: 2px;
 }
 
 .square-medium {
@@ -97,6 +100,7 @@ hr{
     height: 100px;
     overflow: hidden;
     margin: 5px 5px 5px 0px;
+    border-radius: 3px;
 }
 
 .no-bullet{
@@ -127,9 +131,7 @@ hr{
 	margin-left:15px; 
 	word-wrap: break-word;
 }
-.question-button:hover{
 
-}
 .tiny-text{
 	font-size: 12px;
 }

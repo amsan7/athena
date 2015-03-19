@@ -19,6 +19,7 @@
 
   <body style = "background-color: #e5e5e5; padding: 7.5px;">
 
+    <!-- navbar -->
     <div class="navbar navbar-static-top">
       <div class="navbar-inner" style = "background-color: #ffffff; background-image: none">
         <div class="container">
@@ -46,17 +47,12 @@
             <ul class="nav">
               <li><a href="/forum/"><span class=" icon-home" aria-hidden="true"></span> Home</a></li>
               <li><a href=""> <span class=" icon-bell" aria-hidden="true"></span> Notifications</a></li>
-            </ul>
-            <!--/<form class="navbar-form pull-right" role="search">
-              <span class="form-group">
-                <input type="text" class="form-control" placeholder="Search" style = "background-color: #e5e5e5;">
-              </span>
-            </form>-->
-              
+            </ul>   
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
+
 
     {% block content %}
     {% endblock %}
@@ -64,6 +60,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src = "{% static 'forum/bootstrap/js/bootstrap.js' %}" ></script>
     <script src = "{% static 'forum/my-java.js' %}" ></script>
+    <!-- jscript for affixing sidebar, voting, answering -->
     <script type="text/javascript">
       $('#sidebar').affix({
         offset: {
