@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('create_date', models.DateTimeField(verbose_name=b'date created')),
                 ('creator_username', models.CharField(max_length=5000)),
                 ('topic', models.CharField(max_length=500)),
-                ('type', models.CharField(default=b'Open', max_length=15, choices=[(b'Open', b'Open'), (b'Closed', b'Closed'), (b'Secret', b'Secret')])),
+                ('group_type', models.CharField(default=b'Open', max_length=15, choices=[(b'Open', b'Open'), (b'Closed', b'Closed'), (b'Secret', b'Secret')])),
             ],
             options={
             },

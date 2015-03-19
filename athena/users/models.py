@@ -4,7 +4,6 @@ from forum.models import Answer
 from forum.models import Group
 
 class UserProfile(models.Model):
-    #delete me
     groups = models.ManyToManyField(Group)
 
 	# This line is required. Links UserProfile to a User model instance.
@@ -12,7 +11,7 @@ class UserProfile(models.Model):
 
     # The additional attributes we wish to include.
     picture = models.CharField(max_length=5000, default='Paste image URL here')
-    #TODO: add a constant val for max_length
+
     school = models.CharField(max_length=500, default='school')
 
     isTeacher = models.BooleanField(default=False)
@@ -26,7 +25,7 @@ class UserProfile(models.Model):
     downvotedAnswers = models.ManyToManyField(Answer, related_name='downvotedAnswers')
     def upvoted(self, answer):
         all_upvoted = self.upvotedAnswers.all()
-        #print all_upvoted
+
         if answer in all_upvoted:
             return True
         else:
