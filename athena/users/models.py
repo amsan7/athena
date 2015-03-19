@@ -6,23 +6,19 @@ from forum.models import Group
 class UserProfile(models.Model):
     groups = models.ManyToManyField(Group)
 
-	# This line is required. Links UserProfile to a User model instance.
+	# Links UserProfile to a User model instance.
     user = models.OneToOneField(User)
 
-    # The additional attributes we wish to include.
+    # Additional profile attributes
     picture = models.CharField(max_length=5000, default='Paste image URL here')
 
     school = models.CharField(max_length=500, default='school')
-
     isTeacher = models.BooleanField(default=False)
-
     firstName = models.CharField(max_length=500, default='first name')
-
     lastName = models.CharField(max_length=500, default='last name')
-
     upvotedAnswers = models.ManyToManyField(Answer, related_name='upvotedAnswers')
-
     downvotedAnswers = models.ManyToManyField(Answer, related_name='downvotedAnswers')
+
     def upvoted(self, answer):
         all_upvoted = self.upvotedAnswers.all()
 
@@ -55,8 +51,5 @@ class UserProfile(models.Model):
         self.downvotedAnswers.remove(answer)
         self.save()
 
-    #TODO:
-    # add fields for database
-    # Override the __unicode__() method to return out something meaningful
     def __unicode__(self):
         return self.user.username
