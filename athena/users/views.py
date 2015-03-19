@@ -11,12 +11,17 @@ from sets import Set
 
 def register(request):
     context = RequestContext(request)
+
+    # Set boolean to false
     registered = False
+
     # if request is post
     if request.method == 'POST':
+        # Initialize forms to collect user data
         user_form = UserForm(data=request.POST)
         profile_form = UserProfileForm(data=request.POST)
 
+        # create user and userprofile classes to add data
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
 
@@ -44,7 +49,6 @@ def register(request):
 
             profile.save()
             registered = True
-            # log in user once registration fields are validated
             
             # logs you in if your registration details check out
             user = authenticate(username=request.POST['username'], password=request.POST['password'])
@@ -67,11 +71,12 @@ def user_login(request):
     context = RequestContext(request)
 
     if request.method == 'POST':
+        # fetches credentials information and attempts to authenticate
         username = request.POST['username']
         password = request.POST['password']
-
         user = authenticate(username=username, password=password)
 
+        # logs in if active user
         if user:
             if user.is_active:
                 login(request, user)
@@ -88,17 +93,19 @@ def user_login(request):
 
 @login_required
 def user_profile(request, user_id=0):
-
     try:
 	    if user_id==0:
+            # if own profile, brings up own profile
 	        user = User.objects.get(pk=request.user.id)
 	        profile = user.userprofile
 	    else:
+            # if another profile, brings up that user's profile
 	        user = User.objects.get(pk=user_id)
 	        profile = user.userprofile
     except User.DoesNotExist:
 	raise Http404("Profile does not exist!")
 
+    # sorts answers chronologically
     answer_list = user.answer_set.all()
     answered_questions = Set([])
     for answer in answer_list:
@@ -110,10 +117,12 @@ def user_profile(request, user_id=0):
     
 @login_required
 def edit_user_profile(request, user_id=0):
+    # if own profile, allows edit profile option
     if user_id==0:
         user = User.objects.get(pk=request.user.id)
         profile = user.userprofile
 
+        # brings up EditPrfileForm option and saves data
         if request.method == 'POST':
             form = EditProfileForm(data=request.POST, instance=request.user, profile=profile)
             if form.is_valid():
@@ -127,5 +136,6 @@ def edit_user_profile(request, user_id=0):
 
 @login_required
 def user_logout(request):
+    # logs out user
 	logout(request)
 	return HttpResponseRedirect('/forum/')
